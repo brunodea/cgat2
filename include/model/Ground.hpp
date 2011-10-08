@@ -55,7 +55,7 @@ namespace model
             glUniformMatrix4fv(m_loc_u_persp, 1, 0, persp);
             glUniformMatrix4fv(m_loc_u_lookat, 1, 0, lookat);
             GLubyte indices[] = { 0,1,2,
-                                  1,2,3 };
+                                  2,3,0 };
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 
             m_pShader->setActive(false);

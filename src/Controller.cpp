@@ -7,7 +7,7 @@ Controller *Controller::m_sInstance = NULL;
 
 Controller::Controller()
     : m_Camera(math::vector3f(0.f,10.f,10.f), math::vector3f(0.f,0.f,0.f), math::vector3f(0.f,1.f,0.f)), 
-     m_pGround(new model::Ground(10, "res/ground1.vert", "res/ground1.frag"))
+     m_pGround(new model::Ground(1, "res/ground1.vert", "res/ground1.frag"))
 {
 }
 
