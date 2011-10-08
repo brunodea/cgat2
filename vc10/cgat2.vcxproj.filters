@@ -13,15 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="dependencies">
+      <UniqueIdentifier>{17f1caf3-ea0a-4cbe-8a12-c9aaeccb0cfc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\dependencies\gl3w.cpp">
+      <Filter>dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\glsl.cpp">
+      <Filter>dependencies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\macros.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\GL\gl3.h">
+      <Filter>dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\GL\gl3w.hpp">
+      <Filter>dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\GL\glfw.h">
+      <Filter>dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\GL\glsl.h">
+      <Filter>dependencies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
