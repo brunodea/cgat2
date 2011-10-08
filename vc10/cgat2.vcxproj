@@ -70,6 +70,7 @@
   <ItemGroup>
     <ClCompile Include="..\dependencies\gl3w.cpp" />
     <ClCompile Include="..\dependencies\glsl.cpp" />
+    <ClCompile Include="..\src\Controller.cpp" />
     <ClCompile Include="..\src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +78,7 @@
     <ClInclude Include="..\dependencies\GL\gl3w.hpp" />
     <ClInclude Include="..\dependencies\GL\glfw.h" />
     <ClInclude Include="..\dependencies\GL\glsl.h" />
+    <ClInclude Include="..\include\Controller.h" />
     <ClInclude Include="..\include\macros.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

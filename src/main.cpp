@@ -10,6 +10,9 @@
 #include "GL/glsl.h"
 
 #include "macros.h"
+#include "Controller.h"
+
+Controller *g_pController = new Controller();
 
 
 // Callback de mensagens de debug
@@ -62,6 +65,12 @@ void initGLFW()
  */
 void GLFWCALL keyEventCallback(int key, int state)
 {
+    g_pController->keyEvent(key, state);
+}
+
+void GLFWCALL mousePosCallback(int x, int y)
+{
+    g_pController->mouseMoved(x,y);
 }
 
 void GLFWCALL handleResize(int width, int height)
@@ -80,6 +89,7 @@ void GLFWCALL handleResize(int width, int height)
 void setCallBacks()
 {
     glfwSetKeyCallback(keyEventCallback);
+    glfwSetMousePosCallback(mousePosCallback);
     glfwSetWindowSizeCallback(handleResize);
     // Se disponível, registra a callback de erro, que vai imediatamente notificar se ocorrer
 	// algum erro em uma chamada OpenGL sem que nós precisemos verificar isso manualmente.
@@ -101,6 +111,11 @@ void initOpenGL()
     glClearColor(0.f, 0.f, 0.f, 1.f);
 }
 
+void clean()
+{
+    delete g_pController;
+}
+
 int main()
 {
 	initGLFW();
@@ -108,6 +123,9 @@ int main()
 
     setCallBacks();
 
+    g_pController->run();
+
+    clean();
     glfwTerminate();
     exit(EXIT_SUCCESS);
 }
