@@ -113,41 +113,69 @@ namespace math
 
         return translate(vec);
     }
+    
+    inline Matrix4 rotate(float ang, Vector3 &axis)
+    {
+        Matrix4 res = identity<4>();
+        float t = 1-(cos(ang));
+        float c = cos(ang);
+        float s = sin(ang);
+
+        axis = normalize(axis);
+        float x = axis[0];
+        float y = axis[1];
+        float z = axis[2];
+
+        res.set((t*x*x)+c, 0,0);
+        res.set((t*x*y)+(s*z), 0,1);
+        res.set((t*x*z)-(s*y), 0,2);
+
+        res.set((t*x*y)-(s*z), 1,0);
+        res.set((t*y*y)+c, 1,1);
+        res.set((t*y*z)+(s*x), 1,2);
+
+        res.set((t*x*y)+(s*y), 2,0);
+        res.set((t*y*z)-(s*x), 2,1);
+        res.set((t*z*z)+c, 2,2);
+
+        return res;
+    }
+
+    inline Matrix4 rotate(float ang, float x, float y, float z)
+    {
+        Matrix4 res = identity<4>();
+        float t = 1-(cos(ang));
+        float c = cos(ang);
+        float s = sin(ang);
+
+        res.set((t*x*x)+c, 0,0);
+        res.set((t*x*y)+(s*z), 0,1);
+        res.set((t*x*z)-(s*y), 0,2);
+
+        res.set((t*x*y)-(s*z), 1,0);
+        res.set((t*y*y)+c, 1,1);
+        res.set((t*y*z)+(s*x), 1,2);
+
+        res.set((t*x*y)+(s*y), 2,0);
+        res.set((t*y*z)-(s*x), 2,1);
+        res.set((t*z*z)+c, 2,2);
+
+        return res;
+    }
 
     inline Matrix4 rotateX(float ang)
     {
-        Matrix4 res = identity<4>();
-        res.set(cos(ang), 1, 1);
-        res.set(cos(ang), 2, 2);
-
-        res.set(sin(ang), 2, 1);
-        res.set(-sin(ang), 1, 2);
-
-        return res;
+        return rotate(ang, 1.f,0.f,0.f);
     }
 
     inline Matrix4 rotateY(float ang)
     {
-        Matrix4 res = identity<4>();
-        res.set(cos(ang), 0, 0);
-        res.set(cos(ang), 2, 2);
-
-        res.set(sin(ang), 0, 2);
-        res.set(-sin(ang), 2, 0);
-
-        return res;
+        return rotate(ang, 0.f,1.f,0.f);
     }
 
     inline Matrix4 rotateZ(float ang)
     {
-        Matrix4 res = identity<4>();
-        res.set(cos(ang), 0, 0);
-        res.set(cos(ang), 1, 1);
-
-        res.set(sin(ang), 1, 0);
-        res.set(-sin(ang), 0, 1);
-
-        return res;
+        return rotate(ang, 0.f,0.f,1.f);
     }
 
     template<unsigned int M>
