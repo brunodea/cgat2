@@ -78,8 +78,13 @@
     <ClInclude Include="..\dependencies\GL\gl3w.hpp" />
     <ClInclude Include="..\dependencies\GL\glfw.h" />
     <ClInclude Include="..\dependencies\GL\glsl.h" />
+    <ClInclude Include="..\include\Camera.hpp" />
     <ClInclude Include="..\include\Controller.h" />
     <ClInclude Include="..\include\macros.h" />
+    <ClInclude Include="..\include\math\math_aux.hpp" />
+    <ClInclude Include="..\include\math\Matrix.hpp" />
+    <ClInclude Include="..\include\math\matrix_functions.hpp" />
+    <ClInclude Include="..\include\math\Vector.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

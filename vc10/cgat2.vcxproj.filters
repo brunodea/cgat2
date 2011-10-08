@@ -16,6 +16,12 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{48babf26-49da-48f8-aca1-a20480739152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\control">
+      <UniqueIdentifier>{b19d643f-fa4a-48c0-a434-b31192f42187}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -48,7 +54,22 @@
       <Filter>dependencies</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Controller.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Camera.hpp">
+      <Filter>Header Files\control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\math\math_aux.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\math\Matrix.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\math\matrix_functions.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\math\Vector.hpp">
+      <Filter>Header Files\math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
