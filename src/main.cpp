@@ -76,14 +76,6 @@ void GLFWCALL mousePosCallback(int x, int y)
 void GLFWCALL handleResize(int width, int height)
 {
     glViewport(0, 0, width, height);
-
-    //glMatrixMode(GL_PROJECTION);
-    //glLoadIdentity();
-    
-    //gluPerspective(45.f,(float)width/(float)height,0.1,5000);
-    
-    //glMatrixMode(GL_MODELVIEW);
-    //glLoadIdentity();
 }
 
 void setCallBacks()

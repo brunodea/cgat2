@@ -1,6 +1,7 @@
 #include "Controller.h"
 
 #include "GL/glfw.h"
+#include "macros.h"
 
 Controller::Controller()
 {
@@ -52,4 +53,12 @@ void Controller::onUpdate()
 
 void Controller::onRender()
 {
+	glClearColor(0.f, 0.f, 0.f, 1.f);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.f,(float)WINDOW_WIDTH/(float)WINDOW_HEIGHT,0.1,10000);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
