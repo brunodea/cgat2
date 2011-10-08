@@ -3,12 +3,24 @@
 #include "GL/glfw.h"
 #include "macros.h"
 
+Controller *Controller::m_sInstance = NULL;
+
 Controller::Controller()
+    : m_Camera(math::vector3f(0.f,10.f,10.f), math::vector3f(0.f,0.f,0.f), math::vector3f(0.f,1.f,0.f)), 
+     m_pGround(new model::Ground(10, "res/ground1.vert", "res/ground1.frag"))
 {
 }
 
 Controller::~Controller()
 {
+    delete m_pGround;
+}
+
+Controller *Controller::instance()
+{
+    if(m_sInstance == NULL)
+        m_sInstance = new Controller();
+    return m_sInstance;
 }
 
 void Controller::run()
@@ -54,11 +66,5 @@ void Controller::onUpdate()
 void Controller::onRender()
 {
 	glClearColor(0.f, 0.f, 0.f, 1.f);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(45.f,(float)WINDOW_WIDTH/(float)WINDOW_HEIGHT,0.1,10000);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    m_pGround->onRender(m_Perspective.elements(), m_Camera.lookAt().elements());
 }

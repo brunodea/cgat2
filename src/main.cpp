@@ -12,8 +12,6 @@
 #include "macros.h"
 #include "Controller.h"
 
-Controller *g_pController = new Controller();
-
 
 // Callback de mensagens de debug
 void APIENTRY debug_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, GLvoid* userParam)
@@ -65,12 +63,12 @@ void initGLFW()
  */
 void GLFWCALL keyEventCallback(int key, int state)
 {
-    g_pController->keyEvent(key, state);
+    CONTROLLER->keyEvent(key, state);
 }
 
 void GLFWCALL mousePosCallback(int x, int y)
 {
-    g_pController->mouseMoved(x,y);
+    CONTROLLER->mouseMoved(x,y);
 }
 
 void GLFWCALL handleResize(int width, int height)
@@ -105,7 +103,7 @@ void initOpenGL()
 
 void clean()
 {
-    delete g_pController;
+    delete CONTROLLER;
 }
 
 int main()
@@ -115,7 +113,7 @@ int main()
 
     setCallBacks();
 
-    g_pController->run();
+    CONTROLLER->run();
 
     clean();
     glfwTerminate();

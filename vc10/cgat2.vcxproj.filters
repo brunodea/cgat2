@@ -22,6 +22,9 @@
     <Filter Include="Header Files\control">
       <UniqueIdentifier>{b19d643f-fa4a-48c0-a434-b31192f42187}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\model">
+      <UniqueIdentifier>{0daadf63-ed8c-454e-8c1b-4baf29ebfe9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -71,5 +74,16 @@
     <ClInclude Include="..\include\math\Vector.hpp">
       <Filter>Header Files\math</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\model\Ground.hpp">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\res\ground1.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\ground1.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

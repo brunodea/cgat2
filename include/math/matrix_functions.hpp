@@ -10,6 +10,10 @@
 
 #include <cmath>
 
+#ifndef PI
+#define PI 3.14159265358979323846
+#endif
+
 namespace math
 {
     typedef Vector<float, 4> Vector4;
@@ -114,6 +118,17 @@ namespace math
         return translate(vec);
     }
     
+
+    template<unsigned int M>
+    const math::Vector<float, M>normalize(const Vector<float, M> &vec)
+    {
+        math::Vector<float, M> res;
+        float n = norm(vec);
+        for(unsigned int i = 0; i < M; i++)
+            res.set(vec(i,0)/n, i, 0);
+        return res;
+    }
+
     inline Matrix4 rotate(float ang, Vector3 &axis)
     {
         Matrix4 res = identity<4>();
@@ -206,16 +221,6 @@ namespace math
             sum += (vec(i,0)*vec(i,0));
         return sqrt((float)sum);
     }
-
-    template<unsigned int M>
-    const math::Vector<float, M>normalize(const Vector<float, M> &vec)
-    {
-        math::Vector<float, M> res;
-        float n = norm(vec);
-        for(unsigned int i = 0; i < M; i++)
-            res.set(vec(i,0)/n, i, 0);
-        return res;
-    }
     
     template<unsigned int M>
     const float angle(const Vector<float, M> &v1, const Vector<float, M> &v2)
@@ -293,6 +298,21 @@ namespace math
         return false;
     }
 
+    inline Matrix4 perspective(float fovy, float aspect, float zNear, float zFar)
+    {
+        Matrix4 res;
+
+        float f = (float)tan((PI/2.F) - (fovy/2.f));
+
+        res.set(f/aspect, 0,0);
+        res.set(f, 1,1);
+        res.set((zFar+zNear)/(zNear-zFar), 2,2);
+        res.set((2*zFar*zNear)/(zNear-zFar), 2,3);
+        res.set(-1.f, 3,2);
+
+        return res;
+    }
+    
 } //end of namespace math.
 
 

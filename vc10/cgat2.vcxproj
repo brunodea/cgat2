@@ -85,6 +85,11 @@
     <ClInclude Include="..\include\math\Matrix.hpp" />
     <ClInclude Include="..\include\math\matrix_functions.hpp" />
     <ClInclude Include="..\include\math\Vector.hpp" />
+    <ClInclude Include="..\include\model\Ground.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\res\ground1.frag" />
+    <None Include="..\res\ground1.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

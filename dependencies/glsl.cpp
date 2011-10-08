@@ -123,7 +123,6 @@ Glsl::Glsl(char *vert, char *frag)
 	  showInfo = true;
 	  printf("\nYou are using OpenGL %s\n\n", glGetString(GL_VERSION));
    }
-
         
    setShaders(vert, frag);
 

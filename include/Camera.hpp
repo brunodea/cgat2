@@ -21,6 +21,73 @@ public:
     {
     }
 
+    math::Matrix4 lookAt()
+    {
+        math::Matrix4 res = math::identity<4>();
+
+        float eyex = m_vEye3[0];
+        float eyey = m_vEye3[1];
+        float eyez = m_vEye3[2];
+        
+        float centerx = m_vTarget3[0];
+        float centery = m_vTarget3[1];
+        float centerz = m_vTarget3[2];
+        
+        float upx = m_vUp3[0];
+        float upy = m_vUp3[1];
+        float upz = m_vUp3[2];
+
+        math::Vector3 f = math::vector3f(centerx-eyex,centery-eyey,centerz-eyez);
+        math::Vector3 up = math::vector3f(upx,upy,upz);
+        f = math::normalize(f);
+        up = math::normalize(up);
+
+        math::Vector3 s = f.crossProduct(up);
+        math::Vector3 u = s.crossProduct(f);
+        
+        res.set(s[0], 0,0);
+        res.set(s[1], 0,1);
+        res.set(s[2], 0,2);
+        
+        res.set(u[0], 1,0);
+        res.set(u[1], 1,1);
+        res.set(u[2], 1,2);
+
+        res.set(-f[0], 2,0);
+        res.set(-f[1], 2,1);
+        res.set(-f[2], 2,2);
+
+        return res;
+    }
+
+    math::Matrix4 lookAt(float eyex, float eyey, float eyez, float centerx,
+                         float centery, float centerz, float upx, float upy, float upz)
+    {
+        math::Matrix4 res = math::identity<4>();
+
+        math::Vector3 f = math::vector3f(centerx-eyex,centery-eyey,centerz-eyez);
+        math::Vector3 up = math::vector3f(upx,upy,upz);
+        f = math::normalize(f);
+        up = math::normalize(up);
+
+        math::Vector3 s = f.crossProduct(up);
+        math::Vector3 u = s.crossProduct(f);
+        
+        res.set(s[0], 0,0);
+        res.set(s[1], 0,1);
+        res.set(s[2], 0,2);
+        
+        res.set(u[0], 1,0);
+        res.set(u[1], 1,1);
+        res.set(u[2], 1,2);
+
+        res.set(-f[0], 2,0);
+        res.set(-f[1], 2,1);
+        res.set(-f[2], 2,2);
+
+        return res;
+    }
+
     void moveForward() { m_vEye3 += m_vDirection3*m_fSpeed; }
     void moveBackwards() { m_vEye3 -= m_vDirection3*m_fSpeed; }
     void moveLeft() { m_vEye3 += m_vRight3*m_fSpeed; }

@@ -1,10 +1,14 @@
 #ifndef _CGA_T2_CONTROLLER_H_
 #define _CGA_T2_CONTROLLER_H_
 
+#include "model/Ground.hpp"
+#include "math/matrix_functions.hpp"
+#include "Camera.hpp"
+
 class Controller
 {
 public:
-    Controller();
+    static Controller *instance();
     ~Controller();
 
     void run();
@@ -12,11 +16,21 @@ public:
     void keyEvent(int key, int state);
     void mouseMoved(int x, int y);
 
+    float *perspective()
+    {
+        return m_Perspective.elements();
+    }
+
 private:
+    Controller();
     void onUpdate();
     void onRender();
 
 private:
+    static Controller *m_sInstance;
+    Camera m_Camera;
+    model::Ground *m_pGround;
+    math::Matrix4 m_Perspective;
 }; //end of class controller.
 
 #endif

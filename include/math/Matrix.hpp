@@ -111,6 +111,8 @@ namespace math
         inline int getRows() { return m_Rows; }
         inline int getCols() { return m_Cols; }
 
+        inline T *elements() { return &m_Elements[0]; }
+
     private:
         T m_Elements[M*N];
         unsigned int m_Rows;

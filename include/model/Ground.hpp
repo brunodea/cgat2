@@ -11,8 +11,9 @@ namespace model
     {
     public:
         Ground(float size, char *vert_shader, char *frag_shader) 
-            : m_pShader(new Glsl(vert_shader, frag_shader)), m_fSize(size)
+            : m_fSize(size)
         {
+            m_pShader = new Glsl(vert_shader, frag_shader);
             glGenVertexArrays(1, &m_iVAOID);
             glBindVertexArray(m_iVAOID);
 
@@ -36,6 +37,9 @@ namespace model
 
             glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE,  sizeof(vertex_data), (char*)0 + offsetof(vertex_data, color));
 		    glEnableVertexAttribArray(1);
+
+            m_loc_u_persp = m_pShader->getUniformLoc("persp");
+            m_loc_u_lookat = m_pShader->getUniformLoc("lookat");
         }
         ~Ground()
         {
@@ -44,11 +48,17 @@ namespace model
             glDeleteBuffers(1, &m_iVAOID);
         }
 
-        void onRender()
+        void onRender(float *persp, float *lookat)
         {
+            m_pShader->setActive(true);
+            
+            glUniformMatrix4fv(m_loc_u_persp, 1, 0, persp);
+            glUniformMatrix4fv(m_loc_u_lookat, 1, 0, lookat);
             GLubyte indices[] = { 0,1,2,
                                   1,2,3 };
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+
+            m_pShader->setActive(false);
         }
     private:
         struct vertex_data
@@ -64,6 +74,8 @@ namespace model
 
         float m_fSize;
         struct vertex_data *data;
+        GLint m_loc_u_persp;
+        GLint m_loc_u_lookat;
     }; //end of class Ground.
 } //end of namespace model.
 

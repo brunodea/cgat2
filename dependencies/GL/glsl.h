@@ -5,6 +5,9 @@
 //
 // Version 2
 //---------------------------------------------
+#ifndef _POZZER_GLSL_H_
+#define _POZZER_GLSL_H_
+
 #include "GL/gl3w.hpp"
 #include "GL/glfw.h"
 #include <stdio.h>
@@ -35,3 +38,5 @@ private:
    void printProgramInfoLog(GLuint obj);
    void printShaderInfoLog(GLuint obj);
 };
+
+#endif
