@@ -17,7 +17,4 @@ void main(void)
 	float intensity = max(dot(normal,vetDirLuz),0.0);
 
 	out_Color = vec4(intensity,intensity,intensity,1.0);
-
-
-	out_Color = texture(textureMap, texCoord);
 };
