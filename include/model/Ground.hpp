@@ -22,7 +22,7 @@ namespace model
         {
             m_pImage->convertBGRtoRGB();
             m_Data = m_pImage->getImage();
-            if(data == NULL)
+            if(m_Data == NULL)
             {
                 delete m_pImage;
                 std::cout << "Bumpmap for the ground couldn't be loaded." << std::endl;
@@ -43,8 +43,13 @@ namespace model
             glBindTexture(GL_TEXTURE_2D,0);
 
             glGenSamplers(1,&m_iSamplerID);
-            glSamplerParameterf(m_iSamplerID, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glSamplerParameterf(m_iSamplerID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            /*glSamplerParameterf(m_iSamplerID, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glSamplerParameterf(m_iSamplerID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);*/
+            
+            glSamplerParameteri(m_iSamplerID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glSamplerParameteri(m_iSamplerID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glSamplerParameteri(m_iSamplerID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glSamplerParameteri(m_iSamplerID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
             /*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -64,20 +69,21 @@ namespace model
             struct vertex_data d[4] = {
                     {-s ,0.f,-s, 1.f,   0.f,r},
                     { s ,0.f,-s, 1.f,   r,r},
-                    { s ,10.f, s, 1.f,   r,0.f},
-                    {-s ,10.f, s, 1.f,   0.f,0.f}
+                    { s ,size, s, 1.f,   r,0.f},
+                    {-s ,size, s, 1.f,   0.f,0.f}
             };
             
+            float tex[4][2] = { {0.f,r}, {r,r}, {r,0.f}, {0.f,0.f} };
+
             data = &d[0];
             
             glGenBuffers(1, &m_iTEXID);
             glBindBuffer(GL_ARRAY_BUFFER, m_iTEXID);
 
-            //glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data)*4, data, GL_STATIC_DRAW);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(data->tex), &data->tex[0], GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(tex), &tex[0], GL_STATIC_DRAW);
             
             glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0,2,GL_FLOAT,GL_FALSE,sizeof(GL_FLOAT)*2,0);
+            glVertexAttribPointer(0,2,GL_FLOAT,GL_TRUE,sizeof(GL_FLOAT)*2,0);
 
             
             glGenBuffers(1, &m_iVBOID);
@@ -112,11 +118,10 @@ namespace model
         {
             m_pShader->setActive(true);
 
+            glBindSampler(0, m_iSamplerID);
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, m_iTextureID);
-            glBindSampler(0, m_iSamplerID);
             
-            //glUniform1i(m_loc_u_textureMap,m_iSamplerID);
             glUniformMatrix4fv(m_loc_u_projection, 1, GL_TRUE, util::MATRIXSTACK->projection().elements());
             glUniformMatrix4fv(m_loc_u_modelview, 1, GL_TRUE, util::MATRIXSTACK->top().elements());
             GLubyte indices[] = { 0,1,2,
@@ -126,6 +131,7 @@ namespace model
             glBindVertexArray(0);
 
             glBindTexture(GL_TEXTURE_2D, 0);
+            glBindSampler(0,0);
 
             m_pShader->setActive(false);
         }

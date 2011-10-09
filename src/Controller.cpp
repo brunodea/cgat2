@@ -9,8 +9,9 @@ Controller *Controller::m_sInstance = NULL;
 
 Controller::Controller()
     : m_Camera(math::vector3f(0.f,0.f,10.f), math::vector3f(0.f,0.f,0.f), math::vector3f(0.f,1.f,0.f)), 
-    m_pGround(new model::Ground(10.f, "res/ground1.vert", "res/ground1.frag","res/normal_1.bmp"))
+    m_pGround(new model::Ground(100.f, "res/ground1.vert", "res/ground1.frag","res/normal_1.bmp"))
 {
+    m_Camera.setSpeed(10.f);
 }
 
 Controller::~Controller()
