@@ -57,8 +57,6 @@ public:
         res.set(-f[1], 2,1);
         res.set(-f[2], 2,2);
 
-        //adjustAxes();
-
         return res;
     }
 

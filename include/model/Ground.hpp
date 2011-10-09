@@ -25,7 +25,7 @@ namespace model
             struct vertex_data d[4] = {
                     {-s ,0.f,-s, 1.f,   1.f,0.f,0.f,1.f},
                     { s ,0.f,-s, 1.f,   0.f,1.f,0.f,1.f},
-                    { s ,1.f, s, 1.f,   0.f,0.f,1.f,1.f},
+                    { s ,0.f, s, 1.f,   0.f,0.f,1.f,1.f},
                     {-s ,0.f, s, 1.f,   1.f,1.f,1.f,1.f}
             };
             
