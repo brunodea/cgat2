@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 
 namespace model
 {
@@ -14,13 +15,14 @@ namespace model
     {
     public:
         ShaderModel(char *vert_shader, char *frag_shader)
-            : m_pShader(new Glsl(vert_shader, frag_shader))
+            : m_pShader(new Glsl(vert_shader, frag_shader)), m_fAngle(0)
         {
             glGenVertexArrays(1, &m_iVAOID);
             glBindVertexArray(m_iVAOID);
             
             m_loc_u_projection = m_pShader->getUniformLoc("projection");
             m_loc_u_modelview = m_pShader->getUniformLoc("modelview");
+            m_loc_u_sunlight_pos = m_pShader->getUniformLoc("sunlightpos");
         }
         
         ~ShaderModel()
@@ -37,7 +39,10 @@ namespace model
 
                 glUniformMatrix4fv(m_loc_u_projection, 1, GL_TRUE, util::MATRIXSTACK->projection().elements());
                 glUniformMatrix4fv(m_loc_u_modelview, 1, GL_TRUE, util::MATRIXSTACK->top().elements());
-                
+
+                m_fAngle += .05f;
+
+                glUniform3f(m_loc_u_sunlight_pos, 0.f,sin((double)m_fAngle),cos((double)m_fAngle));
                 
                 glBindVertexArray(m_iVAOID);
                 render();
@@ -52,7 +57,7 @@ namespace model
         virtual void afterRender() {}
 
         virtual void render() = 0; //renderizacao especifica do modelo.
-        virtual void initVBO() = 0;
+        virtual void initVBO() = 0; //inicializacao de vertices especifica do modelo.
 
     protected:
         Glsl *m_pShader;
@@ -61,6 +66,10 @@ namespace model
         
         GLint m_loc_u_projection;
         GLint m_loc_u_modelview;
+        GLint m_loc_u_sunlight_pos;
+
+    private:
+        float m_fAngle;
     }; //end of class ShaderModel.
 } //end of namespace model.
 

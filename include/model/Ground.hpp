@@ -25,10 +25,6 @@ namespace model
         {
             initVBO();
         }
-        ~Ground()
-        {
-        }
-
 
         void beforeRender()
         {
