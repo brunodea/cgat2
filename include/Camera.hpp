@@ -19,6 +19,13 @@ public:
 
     void rotate(float angle, float x, float y, float z)
     {
+        math::Vector4 t = math::toVector4f(m_vTarget3);
+        math::Vector4 mt = t;
+        mt *= -1;
+        t = math::translate(t)*(math::rotate(angle,x,y,z)*(math::translate(mt)*t));
+        m_vTarget3 = math::toVector3f(t);
+        
+        adjustAxes();
     }
 
     math::Matrix4 lookAt()

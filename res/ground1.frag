@@ -17,5 +17,11 @@ void main(void)
 	vec3 vetDirLuz = normalize(vec3(0.f,0.f,0.f)-sunlightpos);
 	float intensity = max(dot(normal,vetDirLuz),0.0);
 
+	if(intensity == 0.f)
+	{
+		intensity = dot(normal,vetDirLuz)*0.1f;
+	}
+
+
 	out_Color = vec4(intensity,intensity,intensity,1.0);
 };

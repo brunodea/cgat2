@@ -26,6 +26,9 @@ private:
     static Controller *m_sInstance;
     Camera m_Camera;
     model::Ground *m_pGround;
+
+    float m_fYaw;
+    float m_fPitch;
 }; //end of class controller.
 
 #endif
