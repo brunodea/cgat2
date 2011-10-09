@@ -4,3 +4,5 @@ vc10/Release/*
 *.sdf
 vc10/ipch/*
 bin/*
+*.bmp
+*.jpg

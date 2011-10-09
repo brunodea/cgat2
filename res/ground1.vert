@@ -1,18 +1,18 @@
 #version 330
 
+in vec2 in_TexCoord;
 in vec4 in_Position;
-in vec4 in_Color;
 
-out vec4 ex_Color;
+smooth out vec2 texCoord;
+out vec3 pos;
 
 uniform mat4 projection;
 uniform mat4 modelview;
 
 void main(void) 
 {
-	//gl_Position = projection*in_Position;
-	//gl_Position = modelview*gl_Position;
 	gl_Position = projection*(modelview*in_Position);
-	ex_Color = in_Color;
+	pos = gl_Position.xyz;
+	texCoord = in_TexCoord;
 }
   

@@ -68,6 +68,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\dependencies\Bmp.cpp" />
     <ClCompile Include="..\dependencies\gl3w.cpp" />
     <ClCompile Include="..\dependencies\glsl.cpp" />
     <ClCompile Include="..\src\Controller.cpp" />
@@ -75,6 +76,7 @@
     <ClCompile Include="..\src\util\MatrixStack.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\dependencies\Bmp.h" />
     <ClInclude Include="..\dependencies\GL\gl3.h" />
     <ClInclude Include="..\dependencies\GL\gl3w.hpp" />
     <ClInclude Include="..\dependencies\GL\glfw.h" />

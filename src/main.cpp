@@ -100,6 +100,10 @@ void initOpenGL()
 {
     handleResize(WINDOW_WIDTH, WINDOW_HEIGHT);
     glEnable(GL_DEPTH_TEST);
+	glFrontFace(GL_CCW);
+	glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+
     glClearColor(0.f, 0.f, 0.f, 1.f);
 }
 

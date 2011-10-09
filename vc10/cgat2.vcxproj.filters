@@ -42,6 +42,9 @@
     <ClCompile Include="..\src\util\MatrixStack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\dependencies\Bmp.cpp">
+      <Filter>dependencies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\macros.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="..\include\util\MatrixStack.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\Bmp.h">
+      <Filter>dependencies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
