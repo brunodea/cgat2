@@ -89,6 +89,7 @@
     <ClInclude Include="..\include\math\matrix_functions.hpp" />
     <ClInclude Include="..\include\math\Vector.hpp" />
     <ClInclude Include="..\include\model\Ground.hpp" />
+    <ClInclude Include="..\include\model\ShaderModel.hpp" />
     <ClInclude Include="..\include\model\TexturedModel.hpp" />
     <ClInclude Include="..\include\util\MatrixStack.h" />
   </ItemGroup>

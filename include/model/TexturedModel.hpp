@@ -71,7 +71,11 @@ namespace model
             glBindTexture(GL_TEXTURE_2D, m_iTextureID);
         }
 
-        virtual void onRender() = 0;
+        void afterRenderTexture()
+        {
+            glBindTexture(GL_TEXTURE_2D, 0);
+            glBindSampler(0,0);
+        }
 
     protected:
         Bmp *m_pBmp;

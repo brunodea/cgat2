@@ -13,70 +13,67 @@
 #include "Bmp.h"
 
 #include "model/TexturedModel.hpp"
+#include "model/ShaderModel.hpp"
 
 namespace model
 {
-    class Ground : public TexturedModel
+    class Ground : public TexturedModel, public ShaderModel
     {
     public:
         Ground(float size, char *vert_shader, char *frag_shader, char *texture_filename)
-            : TexturedModel(texture_filename)
+            : m_fSize(size), TexturedModel(texture_filename), ShaderModel(vert_shader, frag_shader)
+        {
+            initVBO();
+        }
+        ~Ground()
+        {
+        }
+
+
+        void beforeRender()
+        {
+            renderTexture();
+        }
+
+        void afterRender()
+        {
+            afterRenderTexture();
+        }
+
+        void render()
+        {
+            GLubyte indices[] = { 0,1,2,
+                                  2,3,0 };
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+        }
+
+        void initVBO()
         {
             glGenVertexArrays(1, &m_iVAOID);
             glBindVertexArray(m_iVAOID);
 
             float r = 10.f;
-            float s = size/2.f;
+            float s = m_fSize/2.f;
             struct vertex_data d[4] = {
                     { -s ,  0.f, -s, 1.f  },
                     {  s ,  0.f, -s, 1.f  },
-                    {  s , size,  s, 1.f  },
-                    { -s , size,  s, 1.f  }
+                    {  s , m_fSize,  s, 1.f  },
+                    { -s , m_fSize,  s, 1.f  }
             };
             
-            data = &d[0];
+            m_Data = &d[0];
             
             initTOB(10);
 
             glGenBuffers(1, &m_iVBOID);
             glBindBuffer(GL_ARRAY_BUFFER, m_iVBOID);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data)*4, data, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data)*4, m_Data, GL_STATIC_DRAW);
             
 		    glEnableVertexAttribArray(1);
-            glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertex_data), 0);//(char*)0 + offsetof(vertex_data, pos));
-            
-            m_pShader = new Glsl(vert_shader, frag_shader);
-            
-            m_loc_u_projection = m_pShader->getUniformLoc("projection");
-            m_loc_u_modelview = m_pShader->getUniformLoc("modelview");
-            m_loc_u_textureMap = m_pShader->getUniformLoc("textureMap");
-        }
-        ~Ground()
-        {
-            delete m_pShader;
-            glDeleteBuffers(1, &m_iVBOID);
-            glDeleteVertexArrays(1, &m_iVAOID);
+            glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertex_data), 0);
+            //(char*)0 + offsetof(vertex_data, pos));
         }
 
-        void onRender()
-        {
-            m_pShader->setActive(true);
-
-            renderTexture();
-            
-            glUniformMatrix4fv(m_loc_u_projection, 1, GL_TRUE, util::MATRIXSTACK->projection().elements());
-            glUniformMatrix4fv(m_loc_u_modelview, 1, GL_TRUE, util::MATRIXSTACK->top().elements());
-            GLubyte indices[] = { 0,1,2,
-                                  2,3,0 };
-            glBindVertexArray(m_iVAOID);
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-            glBindVertexArray(0);
-
-            glBindTexture(GL_TEXTURE_2D, 0);
-            glBindSampler(0,0);
-
-            m_pShader->setActive(false);
-        }
     private:
         struct vertex_data
         {
@@ -84,14 +81,8 @@ namespace model
         };
 
     private:
-        Glsl *m_pShader;
-        GLuint m_iVAOID;
-        GLuint m_iVBOID;
-
-        struct vertex_data *data;
-        GLint m_loc_u_projection;
-        GLint m_loc_u_modelview;
-        GLint m_loc_u_textureMap;
+        struct vertex_data *m_Data;
+        float m_fSize;
     }; //end of class Ground.
 } //end of namespace model.
 
