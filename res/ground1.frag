@@ -1,7 +1,5 @@
 #version 330
 
-uniform mat4 persp;
-uniform mat4 lookat;
 in  vec4 ex_Color;
 
 out vec4 out_Color;

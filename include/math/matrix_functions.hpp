@@ -299,8 +299,11 @@ namespace math
     }
 
     inline Matrix4 perspective(float fovy, float aspect, float zNear, float zFar)
-    {
-        Matrix4 res;
+    {/*
+        Matrix4 res = identity<4>();
+        res.set((1/-100.f), 3,2);
+        res.set(0.f, 3,3);*/
+        Matrix4 res(0);
 
         float f = (float)tan((PI/2.F) - (fovy/2.f));
 

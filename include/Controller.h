@@ -16,16 +16,12 @@ public:
     void keyEvent(int key, int state);
     void mouseMoved(int x, int y);
 
-    float *perspective()
-    {
-        return m_Perspective.elements();
-    }
-
 private:
     Controller();
     void onUpdate();
     void onRender();
 
+    void cameraMove();
 private:
     static Controller *m_sInstance;
     Camera m_Camera;

@@ -6,8 +6,8 @@
 Controller *Controller::m_sInstance = NULL;
 
 Controller::Controller()
-    : m_Camera(math::vector3f(0.f,10.f,10.f), math::vector3f(0.f,0.f,0.f), math::vector3f(0.f,1.f,0.f)), 
-     m_pGround(new model::Ground(1, "res/ground1.vert", "res/ground1.frag"))
+    : m_Camera(math::vector3f(0.f,10.f,100.f), math::vector3f(0.f,0.f,0.f), math::vector3f(0.f,1.f,0.f)), 
+    m_pGround(new model::Ground(1, "res/ground1.vert", "res/ground1.frag")), m_Perspective(math::perspective(60.f,800.f/600.f,0.1f,5000.f))
 {
 }
 
@@ -61,10 +61,35 @@ void Controller::mouseMoved(int x, int y)
 
 void Controller::onUpdate()
 {
+    cameraMove();
 }
 
 void Controller::onRender()
 {
 	glClearColor(0.f, 0.f, 0.f, 1.f);
+    //math::Vector3 e = m_Camera.eye();
+    ////math::Vector3 t = m_Camera.target();
+    //math::Vector3 u = m_Camera.up();
+
+    //m_Camera.setTarget(m_Camera.direction()-e);
+
     m_pGround->onRender(m_Perspective.elements(), m_Camera.lookAt().elements());
+}
+
+void Controller::cameraMove()
+{
+    if(glfwGetKey('W') == GLFW_PRESS)
+        m_Camera.moveForward();
+    else if(glfwGetKey('S') == GLFW_PRESS)
+        m_Camera.moveBackwards();
+
+    if(glfwGetKey('A') == GLFW_PRESS)
+        m_Camera.moveLeft();
+    else if(glfwGetKey('D') == GLFW_PRESS)
+        m_Camera.moveRight();
+
+    if(glfwGetKey('Z') == GLFW_PRESS)
+        m_Camera.moveUp();
+    else if(glfwGetKey('X') == GLFW_PRESS)
+        m_Camera.moveDown();
 }

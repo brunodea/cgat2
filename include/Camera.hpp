@@ -57,35 +57,19 @@ public:
         res.set(-f[1], 2,1);
         res.set(-f[2], 2,2);
 
+        //adjustAxes();
+
         return res;
     }
 
     math::Matrix4 lookAt(float eyex, float eyey, float eyez, float centerx,
                          float centery, float centerz, float upx, float upy, float upz)
     {
-        math::Matrix4 res = math::identity<4>();
+        m_vEye3 = math::vector3f(eyex, eyey, eyez);
+        m_vTarget3 = math::vector3f(centerx, centery, centerz);
+        m_vUp3 = math::vector3f(upx, upy, upz);
 
-        math::Vector3 f = math::vector3f(centerx-eyex,centery-eyey,centerz-eyez);
-        math::Vector3 up = math::vector3f(upx,upy,upz);
-        f = math::normalize(f);
-        up = math::normalize(up);
-
-        math::Vector3 s = f.crossProduct(up);
-        math::Vector3 u = s.crossProduct(f);
-        
-        res.set(s[0], 0,0);
-        res.set(s[1], 0,1);
-        res.set(s[2], 0,2);
-        
-        res.set(u[0], 1,0);
-        res.set(u[1], 1,1);
-        res.set(u[2], 1,2);
-
-        res.set(-f[0], 2,0);
-        res.set(-f[1], 2,1);
-        res.set(-f[2], 2,2);
-
-        return res;
+        return lookAt();
     }
 
     void moveForward() { m_vEye3 += m_vDirection3*m_fSpeed; }
