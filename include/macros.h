@@ -7,6 +7,6 @@
 #define PI 3.14159265358979323846
 
 #define CONTROLLER Controller::instance()
-
+#define MATRIXSTACK MatrixStack::instance()
 
 #endif

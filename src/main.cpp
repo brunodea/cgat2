@@ -11,6 +11,8 @@
 
 #include "macros.h"
 #include "Controller.h"
+#include "util/MatrixStack.h"
+#include "math/matrix_functions.hpp"
 
 
 // Callback de mensagens de debug
@@ -103,6 +105,7 @@ void initOpenGL()
 
 void clean()
 {
+    delete util::MATRIXSTACK;
     delete CONTROLLER;
 }
 
@@ -113,6 +116,7 @@ int main()
 
     setCallBacks();
 
+    util::MATRIXSTACK->setProjection(math::perspective(45.f,800.f/600.f,0.1f,5000.f));
     CONTROLLER->run();
 
     clean();

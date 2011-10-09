@@ -39,6 +39,9 @@
     <ClCompile Include="..\src\Controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\util\MatrixStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\macros.h">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="..\include\model\Ground.hpp">
       <Filter>Header Files\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\util\MatrixStack.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

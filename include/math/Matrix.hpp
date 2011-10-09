@@ -162,6 +162,23 @@ namespace math
         return res;
     }
 
+    template<class T, unsigned int M, unsigned int N, unsigned int P>
+    inline Matrix<T, M, P> operator *(const Matrix<T, M, N> &m1, const Matrix<T, N, P> &m2)
+    {
+        Matrix<T, M, P> res;
+        for(unsigned int i = 0; i < M; i++)
+        {
+            for(unsigned int j = 0; j < P; j++)
+            {
+                T val = 0;
+                for(unsigned int k = 0; k < N; k++)
+                    val += m1(i, k)*m2(k, j);
+                res.set(val, i, j);
+            }
+        }
+        return res;
+    }
+
     template<class T, unsigned int M, unsigned int N>
     inline Matrix<T, M, N> operator*(Matrix<T, M, N> &m, T val)
     {

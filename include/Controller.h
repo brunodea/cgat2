@@ -26,7 +26,6 @@ private:
     static Controller *m_sInstance;
     Camera m_Camera;
     model::Ground *m_pGround;
-    math::Matrix4 m_Perspective;
 }; //end of class controller.
 
 #endif

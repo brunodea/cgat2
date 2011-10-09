@@ -1,13 +1,15 @@
 #include "Controller.h"
 
 #include "GL/glfw.h"
+
+#include "util/MatrixStack.h"
 #include "macros.h"
 
 Controller *Controller::m_sInstance = NULL;
 
 Controller::Controller()
-    : m_Camera(math::vector3f(0.f,10.f,100.f), math::vector3f(0.f,0.f,0.f), math::vector3f(0.f,1.f,0.f)), 
-    m_pGround(new model::Ground(.5, "res/ground1.vert", "res/ground1.frag")), m_Perspective(math::perspective(45.f,800.f/600.f,0.1f,5000.f))
+    : m_Camera(math::vector3f(0.f,0.f,10.f), math::vector3f(0.f,0.f,0.f), math::vector3f(0.f,1.f,0.f)), 
+    m_pGround(new model::Ground(1.f, "res/ground1.vert", "res/ground1.frag"))
 {
 }
 
@@ -74,7 +76,16 @@ void Controller::onRender()
     //m_Camera.setTarget(e+d);
     //m_Camera.adjustAxes();
     
-    m_pGround->onRender(m_Perspective.elements(), m_Camera.lookAt().elements());
+    //util::MATRIXSTACK->pushMatrix();
+        util::MATRIXSTACK->loadIdentity();
+        
+        math::Vector3 e = m_Camera.eye();
+        e *= -1;
+        
+        util::MATRIXSTACK->scale(math::Vector3(10.f));
+        util::MATRIXSTACK->translate(e);
+        m_pGround->onRender();
+    //util::MATRIXSTACK->popMatrix();
 }
 
 void Controller::cameraMove()

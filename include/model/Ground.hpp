@@ -7,6 +7,9 @@
 
 #include <iostream>
 
+#include "util/MatrixStack.h"
+#include "macros.h"
+
 namespace model
 {
     class Ground
@@ -25,7 +28,7 @@ namespace model
             struct vertex_data d[4] = {
                     {-s ,0.f,-s, 1.f,   1.f,0.f,0.f,1.f},
                     { s ,0.f,-s, 1.f,   0.f,1.f,0.f,1.f},
-                    { s ,0.f, s, 1.f,   0.f,0.f,1.f,1.f},
+                    { s ,1.f, s, 1.f,   0.f,0.f,1.f,1.f},
                     {-s ,0.f, s, 1.f,   1.f,1.f,1.f,1.f}
             };
             
@@ -41,8 +44,8 @@ namespace model
             
             m_pShader = new Glsl(vert_shader, frag_shader);
             
-            m_loc_u_persp = m_pShader->getUniformLoc("uniform_persp");
-            m_loc_u_lookat = m_pShader->getUniformLoc("uniform_lookat");
+            m_loc_u_projection = m_pShader->getUniformLoc("projection");
+            m_loc_u_modelview = m_pShader->getUniformLoc("modelview");
         }
         ~Ground()
         {
@@ -51,12 +54,12 @@ namespace model
             glDeleteBuffers(1, &m_iVAOID);
         }
 
-        void onRender(float *persp, float *lookat)
+        void onRender()
         {
             m_pShader->setActive(true);
             
-            glUniformMatrix4fv(m_loc_u_persp, 1, GL_TRUE, persp);
-            glUniformMatrix4fv(m_loc_u_lookat, 1, GL_TRUE, lookat);
+            glUniformMatrix4fv(m_loc_u_projection, 1, GL_TRUE, util::MATRIXSTACK->projection().elements());
+            glUniformMatrix4fv(m_loc_u_modelview, 1, GL_TRUE, util::MATRIXSTACK->top().elements());
             GLubyte indices[] = { 0,1,2,
                                   2,3,0 };
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
@@ -77,8 +80,8 @@ namespace model
 
         float m_fSize;
         struct vertex_data *data;
-        GLint m_loc_u_persp;
-        GLint m_loc_u_lookat;
+        GLint m_loc_u_projection;
+        GLint m_loc_u_modelview;
     }; //end of class Ground.
 } //end of namespace model.
 

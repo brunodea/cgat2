@@ -72,6 +72,7 @@
     <ClCompile Include="..\dependencies\glsl.cpp" />
     <ClCompile Include="..\src\Controller.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\util\MatrixStack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dependencies\GL\gl3.h" />
@@ -86,6 +87,7 @@
     <ClInclude Include="..\include\math\matrix_functions.hpp" />
     <ClInclude Include="..\include\math\Vector.hpp" />
     <ClInclude Include="..\include\model\Ground.hpp" />
+    <ClInclude Include="..\include\util\MatrixStack.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\res\ground1.frag" />
