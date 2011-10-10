@@ -7,6 +7,8 @@
 #include "math/matrix_functions.hpp"
 #include "math/math_aux.hpp"
 
+#include <cmath>
+
 class Camera
 {
 public:
@@ -16,16 +18,42 @@ public:
         adjustAxes();
         m_fSpeed = 1.f;
     }
-
-    void rotate(float angle, float x, float y, float z)
+    
+    math::Matrix4 rotate(float angle, math::Vector3 &v)
     {
-        math::Vector4 t = math::toVector4f(m_vTarget3);
-        math::Vector4 mt = t;
-        mt *= -1;
-        t = math::translate(t)*(math::rotate(angle,x,y,z)*(math::translate(mt)*t));
-        m_vTarget3 = math::toVector3f(t);
+        v = math::normalize(v);
+        return rotate(angle, v(0,0), v(1,0), v(2,0));
+    }
+
+    math::Matrix4 rotate(float angle, float x, float y, float z)
+    {
+        math::Matrix4 res = math::identity<4>();
+
+        float c = cos(angle);
+        float s = sin(angle);
+
+        res.set((x*x)+(((y*y)+(z*z))*c), 0,0);
+        res.set(((x*y)*(1-c))-(z*s), 0,1);
+        res.set(((x*z)*(1-c))+(y*s), 0,2);
         
-        adjustAxes();
+        res.set((x*y*(1-c))+(z*s), 1,0);
+        res.set((y*y)+(((x*x)+(z*z))*c), 1,1);
+        res.set(((y*z)*(1-c))-(x*s), 1,2);
+        
+        res.set((x*z*(1-c))-(y*s), 2,0);
+        res.set((y*z*(1-c))+(x*s), 2,1);
+        res.set((z*z)+((x*x)+(y*y)*c), 2,2);
+        
+        //float bx = x;
+        //float by = y;
+        //float bz = z;
+
+        //math::Vector3 n = math::vector3f(x,y,z);
+        //res.set(((bx-(m_vEye3.dotProduct(n)*x))*(1-c))+(z*by)-(y*bz), 0,3);
+        //res.set(((by-(m_vEye3.dotProduct(n)*y))*(1-c))+(z*by)-(x*bz), 1,3);
+        //res.set(((bz-(m_vEye3.dotProduct(n)*z))*(1-c))+(x*by)-(y*bz), 2,3);
+
+        return res;
     }
 
     math::Matrix4 lookAt()
@@ -102,13 +130,29 @@ public:
     void setSpeed(float speed) { m_fSpeed = speed; }
     float getSpeed() { return m_fSpeed; }
 
+
+    void transform(const math::Matrix4 &m)
+    {
+        m_vTarget3 = transform(m_vTarget3, m);
+        adjustAxes();
+        /*m_vDirection3 = transform(m_vDirection3, m);
+        m_vRight3 = transform(m_vRight3, m);
+        m_vUp3 = transform(m_vUp3, m);*/
+    }
+
     void adjustAxes()
     {
         m_vDirection3 = math::normalize(m_vTarget3 - m_vEye3);
         m_vRight3 = math::normalize(m_vUp3.crossProduct(m_vDirection3));
         m_vUp3 = m_vDirection3.crossProduct(m_vRight3);
     }
-
+private:
+    math::Vector3 transform(const math::Vector3 &v, const math::Matrix4 &m)
+    {
+        math::Vector4 t = math::toVector4f(v);
+        t =  m*t;
+        return math::toVector3f(t);
+    }
 private:
     math::Vector3 m_vEye3;
     math::Vector3 m_vTarget3;

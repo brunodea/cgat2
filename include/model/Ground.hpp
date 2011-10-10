@@ -53,13 +53,13 @@ namespace model
             struct vertex_data d[4] = {
                     { -s ,  0.f, -s, 1.f  },
                     {  s ,  0.f, -s, 1.f  },
-                    {  s , m_fSize,  s, 1.f  },
-                    { -s , m_fSize,  s, 1.f  }
+                    {  s , 0.f,  s, 1.f  },
+                    { -s , 0.f,  s, 1.f  }
             };
             
             m_Data = &d[0];
             
-            initTOB(10);
+            initTOB(100);
 
             glGenBuffers(1, &m_iVBOID);
             glBindBuffer(GL_ARRAY_BUFFER, m_iVBOID);
