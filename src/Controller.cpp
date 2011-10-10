@@ -8,11 +8,12 @@
 Controller *Controller::m_sInstance = NULL;
 
 Controller::Controller()
-    : m_Camera(math::vector3f(0.f,10.f,10.f), math::vector3f(0.f,10.f,0.f), math::vector3f(0.f,1.f,0.f)), 
+    : m_Camera(math::vector3f(0.f,5.f,5.f), math::vector3f(0.f,5.f,0.f), math::vector3f(0.f,1.f,0.f)), 
       m_pGround(new model::Ground(100.f, "res/ground1.vert", "res/ground1.frag","res/normal_2.bmp")),
       m_fYaw(0.f)
 {
     m_Camera.setSpeed(1.f);
+    m_Camera.setDirection(math::vector3f(0,0,-1.f));
 }
 
 Controller::~Controller()
@@ -79,11 +80,11 @@ void Controller::onRender()
         math::Vector3 e = m_Camera.eye();
         e *= -1;
         
-        math::Matrix4 m = m_Camera.rotate(math::degreeToRad(m_fYaw),m_Camera.up());
+        math::Matrix4 m = m_Camera.rotate(m_fYaw, m_Camera.up());
 
-        util::MATRIXSTACK->transform(m);
-        util::MATRIXSTACK->scale(math::Vector3(10.f));
         util::MATRIXSTACK->translate(e);
+        util::MATRIXSTACK->scale(math::Vector3(10.f));
+        util::MATRIXSTACK->transform(m);
         m_pGround->onRender();
     //util::MATRIXSTACK->popMatrix();
 }
@@ -94,7 +95,7 @@ void Controller::cameraRotate()
 
 void Controller::cameraMove()
 {
-    float ang = math::degreeToRad(10.f);
+    float ang = math::degreeToRad(1.f);
     if(glfwGetKey('W') == GLFW_PRESS)
         m_Camera.moveForward();
     else if(glfwGetKey('S') == GLFW_PRESS)
@@ -102,10 +103,17 @@ void Controller::cameraMove()
 
     if(glfwGetKey('A') == GLFW_PRESS)
     {
-        m_fYaw--;
+        m_fYaw -= ang;
+        m_Camera.transform(m_Camera.rotate(m_fYaw, m_Camera.up()));
     }
     else if(glfwGetKey('D') == GLFW_PRESS)
     {
-        m_fYaw++;
+        m_fYaw += ang;
+        m_Camera.transform(m_Camera.rotate(m_fYaw, m_Camera.up()));
     }
+
+    if(glfwGetKey('Z') == GLFW_PRESS)
+        m_Camera.moveDown();
+    else if(glfwGetKey('X') == GLFW_PRESS)
+        m_Camera.moveUp();
 }

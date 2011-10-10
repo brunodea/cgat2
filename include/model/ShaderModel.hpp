@@ -42,7 +42,10 @@ namespace model
 
                 m_fAngle += .02f;
 
-                glUniform3f(m_loc_u_sunlight_pos, 0.f,sin((double)m_fAngle),cos((double)m_fAngle));
+                float s = -100.f;//sin((double)m_fAngle);
+                float c = -30.f;//cos((double)m_fAngle);
+
+                glUniform3f(m_loc_u_sunlight_pos, c,s,c);
                 
                 glBindVertexArray(m_iVAOID);
                 render();
