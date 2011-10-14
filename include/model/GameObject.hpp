@@ -3,7 +3,7 @@
 
 #include "math/matrix_functions.hpp"
 
-namespace game
+namespace model
 {
     class GameObject
     {
@@ -15,16 +15,12 @@ namespace game
             : m_Pos(pos), m_Dir(dir), m_fSpeed(speed), m_fMaxSpeed(maxspeed), m_fAccel(accel)
         {}
 
-
         /* Virtual Functions */
         virtual void onRender() = 0;
         virtual void onUpdate() = 0;
-        virtual void onKeyEvent(int key, int state) {}
+        virtual void onKeyEvent(int key, int state) = 0;
 
-        virtual void move()
-        {
-            m_Pos += (m_Dir*m_fSpeed);
-        }
+        virtual void move() { m_Pos += (m_Dir*m_fSpeed); }
 
         void speedUp() 
         {
@@ -63,6 +59,6 @@ namespace game
 
         float m_fAccel;
     };
-} //end of namespace game.
+} //end of namespace model.
 
 #endif

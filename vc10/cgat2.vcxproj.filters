@@ -25,6 +25,18 @@
     <Filter Include="Header Files\model">
       <UniqueIdentifier>{0daadf63-ed8c-454e-8c1b-4baf29ebfe9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\model\bases">
+      <UniqueIdentifier>{f4bdef03-8cc9-4b25-88d9-c212f6621546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\control">
+      <UniqueIdentifier>{a5b9821d-260e-4c69-920c-988253e8e2bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{88fba363-8f00-446d-963a-a63395be41a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\util">
+      <UniqueIdentifier>{e6dd8361-b238-49da-986d-a1201d8928b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -36,14 +48,14 @@
     <ClCompile Include="..\dependencies\glsl.cpp">
       <Filter>dependencies</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\util\MatrixStack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\dependencies\Bmp.cpp">
       <Filter>dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Controller.cpp">
+      <Filter>Source Files\control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util\MatrixStack.cpp">
+      <Filter>Source Files\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,17 +95,20 @@
     <ClInclude Include="..\include\model\Ground.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\util\MatrixStack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\dependencies\Bmp.h">
       <Filter>dependencies</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\model\TexturedModel.hpp">
-      <Filter>Header Files\model</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\model\ShaderModel.hpp">
-      <Filter>Header Files\model</Filter>
+      <Filter>Header Files\model\bases</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\model\TexturedModel.hpp">
+      <Filter>Header Files\model\bases</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\util\MatrixStack.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\model\GameObject.hpp">
+      <Filter>Header Files\model\bases</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

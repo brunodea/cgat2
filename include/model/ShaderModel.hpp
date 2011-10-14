@@ -9,13 +9,15 @@
 #include <cstdlib>
 #include <cmath>
 
+#include "model/GameObject.hpp"
+
 namespace model
 {
-    class ShaderModel
+    class ShaderModel : public GameObject
     {
     public:
         ShaderModel(char *vert_shader, char *frag_shader)
-            : m_pShader(new Glsl(vert_shader, frag_shader)), m_fAngle(4.25f)
+            : GameObject(), m_pShader(new Glsl(vert_shader, frag_shader)), m_fAngle(4.25f)
         {
             glGenVertexArrays(1, &m_iVAOID);
             glBindVertexArray(m_iVAOID);
@@ -55,12 +57,14 @@ namespace model
             m_pShader->setActive(false);
         }
 
-
         virtual void beforeRender() {}
         virtual void afterRender() {}
 
         virtual void render() = 0; //renderizacao especifica do modelo.
         virtual void initVBO() = 0; //inicializacao de vertices especifica do modelo.
+
+        virtual void onUpdate() = 0;
+        virtual void onKeyEvent(int key, int state) = 0;
 
     protected:
         Glsl *m_pShader;

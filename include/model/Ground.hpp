@@ -50,11 +50,15 @@ namespace model
 
             float r = 10.f;
             float s = m_fSize/2.f;
+            float x = pos()[0];
+            float y = pos()[1];
+            float z = pos()[2];
+
             struct vertex_data d[4] = {
-                    { -s ,  0.f, -s, 1.f  },
-                    {  s ,  0.f, -s, 1.f  },
-                    {  s , 0.f,  s, 1.f  },
-                    { -s , 0.f,  s, 1.f  }
+                    { -s+x ,  y, -s+z, 1.f  },
+                    {  s+x ,  y, -s+z, 1.f  },
+                    {  s+x , y,  s+z, 1.f  },
+                    { -s+x , y,  s+z, 1.f  }
             };
             
             m_Data = &d[0];
@@ -69,6 +73,9 @@ namespace model
             glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertex_data), 0);
             //(char*)0 + offsetof(vertex_data, pos));
         }
+
+        void onUpdate() {}
+        void onKeyEvent(int key, int state) {}
 
     private:
         struct vertex_data

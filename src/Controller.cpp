@@ -12,7 +12,7 @@ Controller::Controller()
       m_pGround(new model::Ground(100.f, "res/ground1.vert", "res/ground1.frag","res/normal_2.bmp")),
       m_fYaw(0.f)
 {
-    m_Camera.setSpeed(1.f);
+    m_Camera.setSpeed(.05f);
 }
 
 Controller::~Controller()
