@@ -74,19 +74,20 @@ void Controller::onRender()
     float v = 195.f/255.f;
     glClearColor(v,v,v,1.f);
     
-    //util::MATRIXSTACK->pushMatrix();
+    util::MATRIXSTACK->pushMatrix();
         util::MATRIXSTACK->loadIdentity();
         
         math::Vector3 e = m_Camera.eye();
         e *= -1;
         
-        math::Matrix4 m = m_Camera.rotate(m_fYaw, m_Camera.up());
+        math::Matrix4 m = math::rotate(m_fYaw, m_Camera.up());
 
         util::MATRIXSTACK->translate(e);
         util::MATRIXSTACK->scale(math::Vector3(10.f));
         util::MATRIXSTACK->transform(m);
+
         m_pGround->onRender();
-    //util::MATRIXSTACK->popMatrix();
+    util::MATRIXSTACK->popMatrix();
 }
 
 void Controller::cameraRotate()
@@ -104,12 +105,12 @@ void Controller::cameraMove()
     if(glfwGetKey('A') == GLFW_PRESS)
     {
         m_fYaw -= ang;
-        m_Camera.transform(m_Camera.rotate(m_fYaw, m_Camera.up()));
+        m_Camera.transform(math::rotate(m_fYaw, m_Camera.up()));
     }
     else if(glfwGetKey('D') == GLFW_PRESS)
     {
         m_fYaw += ang;
-        m_Camera.transform(m_Camera.rotate(m_fYaw, m_Camera.up()));
+        m_Camera.transform(math::rotate(m_fYaw, m_Camera.up()));
     }
 
     if(glfwGetKey('Z') == GLFW_PRESS)

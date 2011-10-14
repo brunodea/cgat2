@@ -129,69 +129,7 @@ namespace math
         return res;
     }
 
-    inline Matrix4 rotate(float ang, Vector3 &axis)
-    {
-        Matrix4 res = identity<4>();
-        float t = 1-(cos(ang));
-        float c = cos(ang);
-        float s = sin(ang);
-
-        axis = normalize(axis);
-        float x = axis[0];
-        float y = axis[1];
-        float z = axis[2];
-
-        res.set((t*x*x)+c, 0,0);
-        res.set((t*x*y)+(s*z), 0,1);
-        res.set((t*x*z)-(s*y), 0,2);
-
-        res.set((t*x*y)-(s*z), 1,0);
-        res.set((t*y*y)+c, 1,1);
-        res.set((t*y*z)+(s*x), 1,2);
-
-        res.set((t*x*y)+(s*y), 2,0);
-        res.set((t*y*z)-(s*x), 2,1);
-        res.set((t*z*z)+c, 2,2);
-
-        return res;
-    }
-
-    inline Matrix4 rotate(float ang, float x, float y, float z)
-    {
-        Matrix4 res = identity<4>();
-        float t = 1-(cos(ang));
-        float c = cos(ang);
-        float s = sin(ang);
-
-        res.set((t*x*x)+c, 0,0);
-        res.set((t*x*y)+(s*z), 0,1);
-        res.set((t*x*z)-(s*y), 0,2);
-
-        res.set((t*x*y)-(s*z), 1,0);
-        res.set((t*y*y)+c, 1,1);
-        res.set((t*y*z)+(s*x), 1,2);
-
-        res.set((t*x*y)+(s*y), 2,0);
-        res.set((t*y*z)-(s*x), 2,1);
-        res.set((t*z*z)+c, 2,2);
-
-        return res;
-    }
-
-    inline Matrix4 rotateX(float ang)
-    {
-        return rotate(ang, 1.f,0.f,0.f);
-    }
-
-    inline Matrix4 rotateY(float ang)
-    {
-        return rotate(ang, 0.f,1.f,0.f);
-    }
-
-    inline Matrix4 rotateZ(float ang)
-    {
-        return rotate(ang, 0.f,0.f,1.f);
-    }
+    
 
     template<unsigned int M>
     inline Matrix<float, M> scale(const Vector<float, M> &vec)
@@ -316,6 +254,91 @@ namespace math
         return res;
     }
     
+    inline Matrix4 rotate(float ang, Vector3 &axis)
+    {
+        math::Matrix4 res = math::identity<4>();
+        axis = normalize(axis);
+        float x = axis[0];
+        float y = axis[1];
+        float z = axis[2];
+
+        float c = cos(ang);
+        float s = sin(ang);
+
+        res.set(c+(x*x*(1-c)), 0,0);
+        res.set(((x*y)*(1-c))-(z*s), 0,1);
+        res.set((x*z*(1-c))+(y*s), 0,2);
+        
+        res.set((x*y*(1-c))+(z*s), 1,0);
+        res.set(c+(y*y*(1-c)), 1,1);
+        res.set((y*z*(1-c))-(x*s), 1,2);
+        
+        res.set((x*z*(1-c))-(y*s), 2,0);
+        res.set((y*z*(1-c))+(x*s), 2,1);
+        res.set(c+(z*z*(1-c)), 2,2);
+
+        return res;
+
+        //Matrix4 res = identity<4>();
+        //float t = 1-(cos(ang));
+        //float c = cos(ang);
+        //float s = sin(ang);
+
+        //axis = normalize(axis);
+        //float x = axis[0];
+        //float y = axis[1];
+        //float z = axis[2];
+
+        //res.set((t*x*x)+c, 0,0);
+        //res.set((t*x*y)+(s*z), 0,1);
+        //res.set((t*x*z)-(s*y), 0,2);
+
+        //res.set((t*x*y)-(s*z), 1,0);
+        //res.set((t*y*y)+c, 1,1);
+        //res.set((t*y*z)+(s*x), 1,2);
+
+        //res.set((t*x*y)+(s*y), 2,0);
+        //res.set((t*y*z)-(s*x), 2,1);
+        //res.set((t*z*z)+c, 2,2);
+
+        //return res;
+    }
+
+    inline Matrix4 rotate(float ang, float x, float y, float z)
+    {
+        return rotate(ang, math::vector3f(x,y,z));
+        //Matrix4 res = identity<4>();
+        //float t = 1-(cos(ang));
+        //float c = cos(ang);
+        //float s = sin(ang);
+
+        //res.set((t*x*x)+c, 0,0);
+        //res.set((t*x*y)+(s*z), 0,1);
+        //res.set((t*x*z)-(s*y), 0,2);
+
+        //res.set((t*x*y)-(s*z), 1,0);
+        //res.set((t*y*y)+c, 1,1);
+        //res.set((t*y*z)+(s*x), 1,2);
+
+        //res.set((t*x*y)+(s*y), 2,0);
+        //res.set((t*y*z)-(s*x), 2,1);
+        //res.set((t*z*z)+c, 2,2);
+    }
+
+    inline Matrix4 rotateX(float ang)
+    {
+        return rotate(ang, 1.f,0.f,0.f);
+    }
+
+    inline Matrix4 rotateY(float ang)
+    {
+        return rotate(ang, 0.f,1.f,0.f);
+    }
+
+    inline Matrix4 rotateZ(float ang)
+    {
+        return rotate(ang, 0.f,0.f,1.f);
+    }
 } //end of namespace math.
 
 
