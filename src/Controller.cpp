@@ -13,7 +13,6 @@ Controller::Controller()
       m_fYaw(0.f)
 {
     m_Camera.setSpeed(1.f);
-    m_Camera.setDirection(math::vector3f(0,0,-1.f));
 }
 
 Controller::~Controller()

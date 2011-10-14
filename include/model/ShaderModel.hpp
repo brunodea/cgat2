@@ -15,7 +15,7 @@ namespace model
     {
     public:
         ShaderModel(char *vert_shader, char *frag_shader)
-            : m_pShader(new Glsl(vert_shader, frag_shader)), m_fAngle(1.f)
+            : m_pShader(new Glsl(vert_shader, frag_shader)), m_fAngle(4.25f)
         {
             glGenVertexArrays(1, &m_iVAOID);
             glBindVertexArray(m_iVAOID);
@@ -40,10 +40,10 @@ namespace model
                 glUniformMatrix4fv(m_loc_u_projection, 1, GL_TRUE, util::MATRIXSTACK->projection().elements());
                 glUniformMatrix4fv(m_loc_u_modelview, 1, GL_TRUE, util::MATRIXSTACK->top().elements());
 
-                m_fAngle += .02f;
+                //m_fAngle = (m_fAngle > 1000000.f) ? 4.5f : m_fAngle + .01f;
 
-                float s = -100.f;//sin((double)m_fAngle);
-                float c = -30.f;//cos((double)m_fAngle);
+                float s = sin((double)m_fAngle);
+                float c = cos((double)m_fAngle);
 
                 glUniform3f(m_loc_u_sunlight_pos, c,s,c);
                 

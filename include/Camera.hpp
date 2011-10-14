@@ -96,12 +96,12 @@ public:
 
     void transform(const math::Matrix4 &m)
     {
-        //m_vTarget3 = transform(m_vTarget3, m);
+        //m_vTarget3 = math::normalize(transform(m_vTarget3, m));
         //adjustAxes();
-        m_vDirection3 = math::normalize(transform(m_vDirection3, m));
-        //m_vDirection3.print();
-        m_vRight3 = math::normalize(transform(m_vRight3, m));
-        m_vUp3 = math::normalize(transform(m_vUp3, m));
+        //m_vDirection3 = math::normalize(transform(m_vDirection3, m));
+        ////m_vDirection3.print();
+        //m_vRight3 = math::normalize(transform(m_vRight3, m));
+        //m_vUp3 = math::normalize(transform(m_vUp3, m));
     }
 
     void adjustAxes()
