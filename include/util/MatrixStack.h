@@ -13,7 +13,10 @@ namespace util
         ~MatrixStack()
         {
             while(!m_MatrixStack->empty())
+            {
+                delete m_MatrixStack->top();
                 m_MatrixStack->pop();
+            }
             delete m_MatrixStack;
         }
 
@@ -24,16 +27,23 @@ namespace util
             return m_sInstance;
         }
 
-        void pushMatrix() { m_MatrixStack->push(*m_pTop); }
+        void pushMatrix()
+        {
+            math::Matrix4 *m = new math::Matrix4();
+            *m = *m_pTop;
+            m_MatrixStack->push(m); 
+        }
         void popMatrix()
         {
             m_MatrixStack->pop();
             if(m_MatrixStack->empty())
             {
-                m_MatrixStack->push(math::identity<4>());
+                math::Matrix4 *m = new math::Matrix4();
+                *m = math::identity<4>();
+                m_MatrixStack->push(m);
             }
 
-            m_pTop = &m_MatrixStack->top();
+            m_pTop = m_MatrixStack->top();
         }
 
         math::Matrix4 top() { return *m_pTop; }
@@ -42,7 +52,7 @@ namespace util
 
         void transform(const math::Matrix4 &mat)
         {
-            m_pTop = &m_MatrixStack->top();
+            m_pTop = m_MatrixStack->top();
             *m_pTop = mat*(*m_pTop);
         }
 
@@ -63,14 +73,17 @@ namespace util
         {
             m_Projection = math::identity<4>();
 
-            m_MatrixStack = new std::stack<math::Matrix4, std::vector<math::Matrix4> >();
-            m_MatrixStack->push(math::identity<4>());
-            m_pTop = &m_MatrixStack->top();
+            m_MatrixStack = new std::stack<math::Matrix4 *, std::vector<math::Matrix4 *> >();
+            
+            math::Matrix4 *m = new math::Matrix4();
+            *m = math::identity<4>();
+            m_MatrixStack->push(m);
+            m_pTop = m_MatrixStack->top();
         }
     private:
         static MatrixStack *m_sInstance;
 
-        std::stack<math::Matrix4, std::vector<math::Matrix4> > *m_MatrixStack;
+        std::stack<math::Matrix4 *, std::vector<math::Matrix4 *> > *m_MatrixStack;
         math::Matrix4 *m_pTop;
 
         math::Matrix4 m_Projection;
