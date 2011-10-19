@@ -4,6 +4,7 @@
 
 #include "util/MatrixStack.h"
 #include "macros.h"
+#include <cmath>
 
 Controller *Controller::m_sInstance = NULL;
 
@@ -82,11 +83,22 @@ void Controller::onRender()
         math::Vector3 pos = m_pPlayer->pos();
         pos[1] += .3f;
         math::Vector3 dir = m_pPlayer->dir();
+        m_Camera.setEye(pos+dir);
 
-        //util::MATRIXSTACK->transform(m_Camera.lookAt(pos+(dir*2.f),pos+(dir*3.f),math::vector3f(0.f,1.f,0.f)));
         util::MATRIXSTACK->translate(m_Camera.eye()*-1.f);
         util::MATRIXSTACK->scale(math::Vector3(10.f));
-        util::MATRIXSTACK->transform(math::rotate(m_fYaw, m_Camera.up()));
+        
+        math::Vector3 vn = math::vector3f(0.f,1.f,0.f);
+        math::Vector3 pdir = m_pPlayer->dir();
+        dir = math::vector3f(0.f,0.f,-1.f);
+
+        float ang = math::angle(dir, pdir);
+
+        if(vn.dotProduct(dir.crossProduct(pdir)) >= 0)
+            ang *= -1;
+        std::cout << math::radToDegree(ang) << std::endl;
+        util::MATRIXSTACK->transform(math::rotate(ang, m_Camera.up()));
+        //util::MATRIXSTACK->transform(math::rotate(m_fYaw, m_Camera.up()));
 
         m_pGround->onRender();
         m_pPlayer->onRender();

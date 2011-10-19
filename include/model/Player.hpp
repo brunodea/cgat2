@@ -87,15 +87,16 @@ namespace model
                 setSpeed(-.3f);
                 move();
             }
-            else if(glfwGetKey('J') == GLFW_PRESS)
+            
+            if(glfwGetKey('J') == GLFW_PRESS)
             {
                 m_fAngle += math::degreeToRad(1.f);
-                setDir(math::transform(dir(),math::rotate(math::degreeToRad(1.f),0,1,0)));
+                setDir(math::normalize(math::transform(dir(),math::rotate(math::degreeToRad(1.f),0,1,0))));
             }
             else if(glfwGetKey('L') == GLFW_PRESS)
             {
                 m_fAngle += math::degreeToRad(-1.f);
-                setDir(math::transform(dir(),math::rotate(math::degreeToRad(-1.f),0,1,0)));
+                setDir(math::normalize(math::transform(dir(),math::rotate(math::degreeToRad(-1.f),0,1,0))));
             }
         }
 
