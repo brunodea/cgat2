@@ -10,14 +10,16 @@ Controller *Controller::m_sInstance = NULL;
 Controller::Controller()
     : m_Camera(math::vector3f(0.f,5.f,5.f), math::vector3f(0.f,5.f,0.f), math::vector3f(0.f,1.f,0.f)), 
       m_pGround(new model::Ground(100.f, "res/ground1.vert", "res/ground1.frag","res/normal_2.bmp")),
-      m_fYaw(0.f)
+      m_pPlayer(new model::Player()), m_fYaw(0.f)
 {
     m_Camera.setSpeed(.05f);
+    /* cria a textura da cena. */
 }
 
 Controller::~Controller()
 {
     delete m_pGround;
+    delete m_pPlayer;
 }
 
 Controller *Controller::instance()
@@ -66,6 +68,7 @@ void Controller::mouseMoved(int x, int y)
 void Controller::onUpdate()
 {
     cameraMove();
+    m_pPlayer->onUpdate();
 }
 
 void Controller::onRender()
@@ -76,16 +79,17 @@ void Controller::onRender()
     util::MATRIXSTACK->pushMatrix();
         util::MATRIXSTACK->loadIdentity();
         
-        math::Vector3 e = m_Camera.eye();
-        e *= -1;
-        
-        math::Matrix4 m = math::rotate(m_fYaw, m_Camera.up());
+        math::Vector3 pos = m_pPlayer->pos();
+        pos[1] += .3f;
+        math::Vector3 dir = m_pPlayer->dir();
 
-        util::MATRIXSTACK->translate(e);
+        //util::MATRIXSTACK->transform(m_Camera.lookAt(pos+(dir*2.f),pos+(dir*3.f),math::vector3f(0.f,1.f,0.f)));
+        util::MATRIXSTACK->translate(m_Camera.eye()*-1.f);
         util::MATRIXSTACK->scale(math::Vector3(10.f));
-        util::MATRIXSTACK->transform(m);
+        util::MATRIXSTACK->transform(math::rotate(m_fYaw, m_Camera.up()));
 
         m_pGround->onRender();
+        m_pPlayer->onRender();
     util::MATRIXSTACK->popMatrix();
 }
 

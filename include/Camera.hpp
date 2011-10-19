@@ -68,6 +68,11 @@ public:
         return lookAt();
     }
 
+    math::Matrix4 lookAt(math::Vector3 &eye, math::Vector3 &center, math::Vector3 &up)
+    {
+        return lookAt(eye[0],eye[1],eye[2], center[0],center[1],center[2], up[0],up[1],up[2]);
+    }
+
     void moveForward() { m_vEye3 += m_vDirection3*m_fSpeed; }
     void moveBackwards() { m_vEye3 -= m_vDirection3*m_fSpeed; }
     void moveLeft() { m_vEye3 += m_vRight3*m_fSpeed; }

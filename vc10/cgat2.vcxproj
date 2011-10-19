@@ -90,6 +90,7 @@
     <ClInclude Include="..\include\math\Vector.hpp" />
     <ClInclude Include="..\include\model\GameObject.hpp" />
     <ClInclude Include="..\include\model\Ground.hpp" />
+    <ClInclude Include="..\include\model\Player.hpp" />
     <ClInclude Include="..\include\model\ShaderModel.hpp" />
     <ClInclude Include="..\include\model\TexturedModel.hpp" />
     <ClInclude Include="..\include\util\MatrixStack.h" />
@@ -97,6 +98,8 @@
   <ItemGroup>
     <None Include="..\res\ground1.frag" />
     <None Include="..\res\ground1.vert" />
+    <None Include="..\res\player.frag" />
+    <None Include="..\res\player.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

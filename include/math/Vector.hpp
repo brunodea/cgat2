@@ -105,6 +105,14 @@ namespace math
         return res;
     }
 
+    template<class T, unsigned int N>
+    inline Vector<T, N> operator *(Vector<T, N> &v, T val)
+    {
+        Vector<T,N> res = v;
+        res *= val;
+        return res;
+    }
+
     template<class T, unsigned int M>
     inline Vector<T, M> operator /(Vector<T, M> &v, T val)
     {

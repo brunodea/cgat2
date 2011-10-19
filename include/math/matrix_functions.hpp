@@ -339,6 +339,14 @@ namespace math
     {
         return rotate(ang, 0.f,0.f,1.f);
     }
+
+    inline Vector3 transform(const Vector3 &v, const Matrix4 &m)
+    {
+        Vector4 aux = toVector4f(v);
+        aux = m*aux;
+        return toVector3f(aux);
+    }
+
 } //end of namespace math.
 
 

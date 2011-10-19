@@ -37,6 +37,12 @@
     <Filter Include="Source Files\util">
       <UniqueIdentifier>{e6dd8361-b238-49da-986d-a1201d8928b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\ground">
+      <UniqueIdentifier>{34988c5f-240c-44dc-b043-f176015680c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\player">
+      <UniqueIdentifier>{4b248cbe-aff8-41ec-9862-99120518a181}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -110,13 +116,22 @@
     <ClInclude Include="..\include\model\GameObject.hpp">
       <Filter>Header Files\model\bases</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\model\Player.hpp">
+      <Filter>Header Files\model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\res\ground1.frag">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\ground</Filter>
     </None>
     <None Include="..\res\ground1.vert">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\ground</Filter>
+    </None>
+    <None Include="..\res\player.frag">
+      <Filter>Resource Files\player</Filter>
+    </None>
+    <None Include="..\res\player.vert">
+      <Filter>Resource Files\player</Filter>
     </None>
   </ItemGroup>
 </Project>

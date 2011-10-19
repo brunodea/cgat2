@@ -76,13 +76,12 @@ namespace model
 
         void onUpdate() {}
         void onKeyEvent(int key, int state) {}
-
+        
     private:
         struct vertex_data
         {
             float pos[4]; //x,y,z,w
         };
-
     private:
         struct vertex_data *m_Data;
         float m_fSize;
