@@ -21,7 +21,7 @@ namespace model
     {
     public:
         Ground(float size, char *vert_shader, char *frag_shader, char *texture_filename)
-            : m_fSize(size), TexturedModel(texture_filename), ShaderModel(vert_shader, frag_shader)
+            : m_fSize(size), TexturedModel(texture_filename, GL_TEXTURE0), ShaderModel(vert_shader, frag_shader)
         {
             initVBO();
         }

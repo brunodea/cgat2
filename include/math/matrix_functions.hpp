@@ -237,11 +237,8 @@ namespace math
     }
 
     inline Matrix4 perspective(float fovy, float aspect, float zNear, float zFar)
-    {/*
-        Matrix4 res = identity<4>();
-        res.set((1/-100.f), 3,2);
-        res.set(0.f, 3,3);*/
-        Matrix4 res(0);
+    {
+        Matrix4 res(0.f);
 
         float f = (float)tan((PI/2.F) - (fovy/2.f));
 
@@ -250,6 +247,25 @@ namespace math
         res.set((zFar+zNear)/(zNear-zFar), 2,2);
         res.set((2*zFar*zNear)/(zNear-zFar), 2,3);
         res.set(-1.f, 3,2);
+
+        return res;
+    }
+
+    inline Matrix4 ortho(float left, float right, float bottom, float top, float near, float far)
+    {
+        Matrix4 res(0.f);
+
+        float tx = -1*((right+left)/(right-left));
+        float ty = -1*((top+bottom)/(top-bottom));
+        float tz = -1*((far+near)/(far-near));
+
+        res.set(2/(right-left),0,0);
+        res.set(2/(top-bottom),1,1);
+        res.set(-2/(far-near),2,2);
+        res.set(tx,0,3);
+        res.set(ty,1,3);
+        res.set(tz,2,3);
+        res.set(1.f,3,3);
 
         return res;
     }

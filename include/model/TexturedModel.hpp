@@ -15,8 +15,8 @@ namespace model
     class TexturedModel
     {
     public:
-        TexturedModel(char *texture_filename)
-            : m_pBmp(new Bmp(texture_filename))
+        TexturedModel(char *texture_filename, GLuint texture)
+            : m_pBmp(new Bmp(texture_filename)), m_iActiveTexture(texture)
         {
             m_pBmp->convertBGRtoRGB();
             if(m_pBmp->getImage() == NULL)
@@ -27,12 +27,30 @@ namespace model
                 exit(1);
             }
 
-            glActiveTexture(GL_TEXTURE0);
+            glActiveTexture(m_iActiveTexture);
             glGenTextures(1,&m_iTextureID);
             glBindTexture(GL_TEXTURE_2D,m_iTextureID);
 
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_pBmp->getWidth(), 
                          m_pBmp->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, m_pBmp->getImage());
+            glGenerateMipmap(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D,0);
+
+            glGenSamplers(1,&m_iSamplerID);
+            glSamplerParameteri(m_iSamplerID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glSamplerParameteri(m_iSamplerID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glSamplerParameteri(m_iSamplerID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glSamplerParameteri(m_iSamplerID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        }
+
+        TexturedModel(int width, int height, GLuint texture)
+            : m_pBmp(NULL), m_iActiveTexture(texture)
+        {
+            glActiveTexture(m_iActiveTexture);
+            glGenTextures(1,&m_iTextureID);
+            glBindTexture(GL_TEXTURE_2D,m_iTextureID);
+
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
             glGenerateMipmap(GL_TEXTURE_2D);
             glBindTexture(GL_TEXTURE_2D,0);
 
@@ -67,7 +85,7 @@ namespace model
         void renderTexture()
         {
             glBindSampler(0, m_iSamplerID);
-            glActiveTexture(GL_TEXTURE0);
+            glActiveTexture(m_iActiveTexture);
             glBindTexture(GL_TEXTURE_2D, m_iTextureID);
         }
 
@@ -82,6 +100,7 @@ namespace model
         GLuint m_iTextureID;
         GLuint m_iSamplerID;
         GLuint m_iTOBID;
+        GLuint m_iActiveTexture;
     }; //end of class TexturedModel.
 } //end of namespace model.
 

@@ -11,16 +11,16 @@ Controller *Controller::m_sInstance = NULL;
 Controller::Controller()
     : m_Camera(math::vector3f(0.f,5.f,5.f), math::vector3f(0.f,5.f,0.f), math::vector3f(0.f,1.f,0.f)), 
       m_pGround(new model::Ground(100.f, "res/ground1.vert", "res/ground1.frag","res/normal_2.bmp")),
-      m_pPlayer(new model::Player()), m_fYaw(0.f)
+      m_pPlayer(new model::Player()), m_fYaw(0.f), m_pTexturedScene(new TexturedScene())
 {
     m_Camera.setSpeed(.05f);
-    /* cria a textura da cena. */
 }
 
 Controller::~Controller()
 {
     delete m_pGround;
     delete m_pPlayer;
+    delete m_pTexturedScene;
 }
 
 Controller *Controller::instance()
@@ -74,6 +74,14 @@ void Controller::onUpdate()
 
 void Controller::onRender()
 {
+    //util::MATRIXSTACK->setProjection(math::ortho(-WINDOW_WIDTH/2.f,WINDOW_WIDTH/2.f,-WINDOW_HEIGHT/2.f,WINDOW_HEIGHT/2.f,-1.f,1.f));
+    //util::MATRIXSTACK->setProjection(math::ortho(0.f,WINDOW_WIDTH,0.f,WINDOW_HEIGHT,-1.f,1.f));
+    m_pTexturedScene->setTexture(this, &Controller::drawScene);
+    m_pTexturedScene->onRender();
+}
+
+void Controller::drawScene()
+{
     float v = 195.f/255.f;
     glClearColor(v,v,v,1.f);
     
@@ -96,17 +104,13 @@ void Controller::onRender()
 
         if(vn.dotProduct(dir.crossProduct(pdir)) >= 0)
             ang *= -1;
-        std::cout << math::radToDegree(ang) << std::endl;
+
         util::MATRIXSTACK->transform(math::rotate(ang, m_Camera.up()));
         //util::MATRIXSTACK->transform(math::rotate(m_fYaw, m_Camera.up()));
 
         m_pGround->onRender();
         m_pPlayer->onRender();
     util::MATRIXSTACK->popMatrix();
-}
-
-void Controller::cameraRotate()
-{
 }
 
 void Controller::cameraMove()

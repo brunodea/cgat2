@@ -34,7 +34,7 @@ namespace model
             glDeleteVertexArrays(1, &m_iVAOID);
         }
 
-        void onRender()
+        virtual void onRender()
         {
             m_pShader->setActive(true);
                 beforeRender();

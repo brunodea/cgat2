@@ -6,6 +6,7 @@
 #include "Camera.hpp"
 #include "model/Player.hpp"
 #include "GL/glfw.h"
+#include "TexturedScene.hpp"
 
 class Controller
 {
@@ -24,7 +25,8 @@ private:
     void onRender();
 
     void cameraMove();
-    void cameraRotate();
+
+    void drawScene();
 private:
     static Controller *m_sInstance;
     Camera m_Camera;
@@ -32,7 +34,7 @@ private:
     model::Player *m_pPlayer;
     
     float m_fYaw;
-    GLuint m_iSceneTextureID;
+    TexturedScene *m_pTexturedScene;
 }; //end of class controller.
 
 #endif

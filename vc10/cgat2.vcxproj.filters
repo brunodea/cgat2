@@ -119,6 +119,9 @@
     <ClInclude Include="..\include\model\Player.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\TexturedScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\res\ground1.frag">
