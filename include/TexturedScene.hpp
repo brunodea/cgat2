@@ -16,7 +16,7 @@ class TexturedScene
 {
 public:
     TexturedScene()
-        : m_pShader(new Glsl("res/scene.vert", "res/scene.frag"))
+        : m_pShader(new Glsl("res/scene.vert", "res/scene.frag")), m_fZoom(45.f)
     {
         glGenFramebuffers(1,&m_iFBO);
         glBindFramebuffer(GL_FRAMEBUFFER,m_iFBO);
@@ -79,11 +79,22 @@ public:
 
     void renderTexture(Controller *ctrl, ControllerFuncPtr pt)
     {
+        if(glfwGetKey('V') == GLFW_PRESS)
+        {
+            m_fZoom += 0.1f;
+            std::cout << "FOV: " << m_fZoom << std::endl;
+        }
+        else if(glfwGetKey('B') == GLFW_PRESS)
+        {
+            m_fZoom -= 0.1f;
+            std::cout << "FOV: " << m_fZoom << std::endl;
+        }
+
         glBindFramebuffer(GL_FRAMEBUFFER,m_iFBO);
         glViewport(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        util::MATRIXSTACK->setProjection(math::perspective(14.f,WINDOW_WIDTH/WINDOW_HEIGHT,0.1f,5000.f));
+        util::MATRIXSTACK->setProjection(math::perspective(math::degreeToRad(45.f),WINDOW_WIDTH/WINDOW_HEIGHT,0.1f,5000.f));
         (ctrl->*pt)();
 
         glBindFramebuffer(GL_FRAMEBUFFER,0);
@@ -105,7 +116,7 @@ public:
         
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
         
-        util::MATRIXSTACK->setProjection(math::perspective(45.f,WINDOW_WIDTH/WINDOW_HEIGHT,0.1f,5000.f));
+        util::MATRIXSTACK->setProjection(math::perspective(math::degreeToRad(m_fZoom),WINDOW_WIDTH/WINDOW_HEIGHT,0.1f,5000.f));
         (ctrl->*pt)();
 
         m_pShader->setActive(false);
@@ -128,6 +139,7 @@ private:
 
     Glsl *m_pShader;
     GLuint m_loc_u_renderedTexture;
+    float m_fZoom;
 };
 
 #endif

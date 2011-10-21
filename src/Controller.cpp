@@ -18,9 +18,9 @@ Controller::Controller()
     m_pCube[0] = new model::Player();
     m_pCube[1] = new model::Player();
     m_pCube[2] = new model::Player();
-    m_pCube[0]->setPos(math::vector3f(10.f,1.f,10.f));
-    m_pCube[1]->setPos(math::vector3f(10.f,1.f,20.f));
-    m_pCube[2]->setPos(math::vector3f(10.f,1.f,30.f));
+    m_pCube[0]->setPos(math::vector3f(10.f,0.f,10.f));
+    m_pCube[1]->setPos(math::vector3f(20.f,0.f,20.f));
+    m_pCube[2]->setPos(math::vector3f(30.f,0.f,30.f));
 }
 
 Controller::~Controller()

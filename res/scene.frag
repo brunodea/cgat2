@@ -10,7 +10,7 @@ void main(void)
 	out_Color = texture2D(renderedTexture,UV).rgb;
 
 	float d = distance(position.xy,vec2(0.f,0.f));
-	if(d > .6f)
+	if(d > .4f)
 	{
 		ivec3 aux = ivec3(-2,0,2);
 
@@ -30,7 +30,7 @@ void main(void)
 
 		out_Color = sum.rgb;
 	}
-	else if(d >= .58f)
+	else if(d >= .38f)
 		out_Color = vec3(0,0,0);
 	else
 		discard;
