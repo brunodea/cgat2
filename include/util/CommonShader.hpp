@@ -16,11 +16,10 @@ namespace util
         glUniformMatrix4fv(shader->getUniformLoc("modelview"), 1, GL_TRUE, util::MATRIXSTACK->top().elements());
     }
 
-    static inline void setSunlight(Glsl *shader)
+    static inline void setSunlight(Glsl *shader,float angle)
     {
-                ////m_fAngle = (m_fAngle > 1000000.f) ? 4.5f : m_fAngle + .01f;
-        float s = sin((double)15.f);
-        float c = cos((double)15.f);
+        float s = sin((double)angle);
+        float c = cos((double)angle);
         glUniform3f(shader->getUniformLoc("sunlightpos"), c,s,c);
     }
 

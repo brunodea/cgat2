@@ -23,7 +23,7 @@ namespace model
     {
     public:
         Ground(float size, char *vert_shader, char *frag_shader, char *texture_filename)
-            : m_fSize(size),
+            : m_fSize(size),m_fSunlightAngle(10.f),
             TexturedModel(vert_shader, frag_shader,texture_filename,GL_TEXTURE0,gl::TEXO::GOOD,0)
         {
             adjustVertexAttribs(TEXVERT);
@@ -41,8 +41,9 @@ namespace model
 
         void render()
         {
+            m_fSunlightAngle = (m_fSunlightAngle > 10000.f) ? 0.f : m_fSunlightAngle + 0.001f;
             util::setMatrices(m_pShader);
-            util::setSunlight(m_pShader);
+            util::setSunlight(m_pShader,m_fSunlightAngle);
             GLubyte indices[] = { 0,1,2,
                                   2,3,0 };
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
@@ -70,6 +71,7 @@ namespace model
         
     private:
         float m_fSize;
+        float m_fSunlightAngle;
     }; //end of class Ground.
 } //end of namespace model.
 

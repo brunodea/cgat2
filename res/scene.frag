@@ -1,6 +1,7 @@
 #version 330
 
 uniform sampler2D renderedTexture;
+
 in vec2 UV;
 in vec4 position;
 layout(location = 0) out vec4 out_Color;
@@ -13,7 +14,7 @@ void main(void)
 
 	if(d > .25f)
 	{
-		ivec3 aux = ivec3(-2,0,2);
+		ivec3 aux = ivec3(-4,0,4);
 
 		vec4 sum = vec4(0,0,0,0);
 		sum += textureOffset(renderedTexture,UV,aux.xx);
@@ -31,8 +32,8 @@ void main(void)
 
 		out_Color = sum;
 	}
-	else if(d >= .24f || /*d <= 0.005f*/ (UV.x <= 0.5f && UV.x >= 0.499f) || (UV.y <= 0.5f && UV.y >= 0.499f))
-		out_Color = vec4(0,0,0,1);
+	else if(d >= .24f || (UV.x <= 0.5f && UV.x >= 0.499f) || (UV.y <= 0.5f && UV.y >= 0.499f))
+		out_Color = vec4(0,0,.15,1);
 	else
 		discard;
 }

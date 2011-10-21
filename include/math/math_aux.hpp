@@ -15,12 +15,12 @@ namespace math
 
     inline float radToDegree(float rad)
     {
-        return (180.f*rad)/PI;
+        return (float)(180.f*rad)/PI;
     }
 
     inline float degreeToRad(float d)
     {
-        return (d*PI)/180.f;
+        return (float)(d*PI)/180.f;
     }
 } //end of namespace math.
 #endif

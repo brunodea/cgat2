@@ -12,7 +12,7 @@ Controller *Controller::m_sInstance = NULL;
 Controller::Controller()
     : m_Camera(math::vector3f(0.f,5.f,5.f), math::vector3f(0.f,5.f,0.f), math::vector3f(0.f,1.f,0.f)), 
       m_pGround(new model::Ground(100.f, "res/ground1.vert", "res/ground1.frag","res/normal_2.bmp")),
-      m_pPlayer(new model::Player()), m_fYaw(0.f)
+      m_pPlayer(new model::Player()), m_fYaw(0.f),m_fUpDownAngle(0.f)
 {
     m_Camera.setSpeed(.05f);
     
@@ -80,6 +80,7 @@ void Controller::onUpdate()
 {
     cameraMove();
     m_pPlayer->onUpdate();
+    TEXTUREDSCENE->onUpdate();
 }
 
 void Controller::onRender()
@@ -87,7 +88,7 @@ void Controller::onRender()
     //util::MATRIXSTACK->setProjection(math::ortho(-WINDOW_WIDTH/2.f,WINDOW_WIDTH/2.f,-WINDOW_HEIGHT/2.f,WINDOW_HEIGHT/2.f,-1.f,1.f));
     //util::MATRIXSTACK->setProjection(math::ortho(0.f,WINDOW_WIDTH,0.f,WINDOW_HEIGHT,-1.f,1.f));
     
-    TEXTUREDSCENE->renderTexture();
+    TEXTUREDSCENE->renderScene();
     //drawScene();
 }
 
@@ -117,6 +118,7 @@ void Controller::drawScene()
             ang *= -1;
 
         util::MATRIXSTACK->transform(math::rotate(ang, m_Camera.up()));
+        util::MATRIXSTACK->transform(math::rotate(math::degreeToRad(m_fUpDownAngle), math::vector3f(1,0,0)));
         //util::MATRIXSTACK->transform(math::rotate(m_fYaw, m_Camera.up()));
 
         m_pGround->onRender();
@@ -150,4 +152,13 @@ void Controller::cameraMove()
         m_Camera.moveDown();
     else if(glfwGetKey('X') == GLFW_PRESS)
         m_Camera.moveUp();
+
+    if(glfwGetKey('U') == GLFW_PRESS)
+    {
+        m_fUpDownAngle += 1.f;
+    }
+    else if(glfwGetKey('O') == GLFW_PRESS)
+    {
+        m_fUpDownAngle -= 1.f;
+    }
 }

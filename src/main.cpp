@@ -117,12 +117,24 @@ void clean()
     delete TEXTUREDSCENE;
 }
 
+void help()
+{
+    std::cout << "SNIPER - Bruno Romero de Azevedo." << std::endl;
+    std::cout << "                     OpenGL 3.3  " << std::endl;
+    std::cout << "Comandos:                        " << std::endl;
+    std::cout << "I/K move o player para frente e para tras." << std::endl;
+    std::cout << "J/L rotaciona para esquerda/direita." << std::endl;
+    std::cout << "V/B aumenta/diminui o zoom da sniper." << std::endl;
+}
+
 int main()
 {
 	initGLFW();
     initOpenGL();
 
     setCallBacks();
+    
+    help();
 
     util::MATRIXSTACK->setProjection(math::perspective(45.f,800.f/600.f,0.1f,5000.f));
     CONTROLLER->run();

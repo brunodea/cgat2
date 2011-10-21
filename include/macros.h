@@ -10,5 +10,6 @@
 #define MATRIXSTACK MatrixStack::instance()
 #define TEXTUREDSCENE TexturedScene::instance()
 
+#define FOV_NORMAL 45.f
 
 #endif

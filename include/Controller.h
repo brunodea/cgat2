@@ -19,6 +19,8 @@ public:
     void mouseMoved(int x, int y);
     
     void drawScene();
+
+    model::Player *player() { return m_pPlayer; }
 private:
     Controller();
     void onUpdate();
@@ -34,6 +36,7 @@ private:
     model::Player *m_pCube[3];
     
     float m_fYaw;
+    float m_fUpDownAngle;
 }; //end of class controller.
 
 #endif

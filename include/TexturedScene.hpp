@@ -1,6 +1,8 @@
 #ifndef _CGA_T2_TEXTURED_SCENE_HPP_
 #define _CGA_T2_TEXTURED_SCENE_HPP_
 
+class Controller;
+
 #include <iostream>
 #include <cstdlib>
 #include "macros.h"
@@ -9,8 +11,10 @@
 #include "GL/glsl.h"
 #include "util/MatrixStack.h"
 #include "Controller.h"
+#include "util/CommonShader.hpp"
 
 #include "gl/GLObjects.hpp"
+
 
 class TexturedScene
 {
@@ -55,18 +59,24 @@ public:
         glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,sizeof(vertex_data),(void*)offsetof(vertex_data, uv));
     }
 
-    void renderTexture()
+    void onUpdate()
     {
         if(glfwGetKey('V') == GLFW_PRESS)
         {
             m_fZoom += 1.f;
-           // std::cout << "FOV: " << m_fZoom << std::endl;
+            if(m_fZoom > 45.f)
+                m_fZoom = 45.f;
         }
         else if(glfwGetKey('B') == GLFW_PRESS)
         {
             m_fZoom -= 1.f;
-          //  std::cout << "FOV: " << m_fZoom << std::endl;
+            if(m_fZoom < 0.f)
+                m_fZoom = 0.f;
         }
+    }
+
+    void renderScene()
+    {
 
         renderSceneToTexture();
         renderSceneToScreen();
@@ -112,6 +122,8 @@ public:
     GLuint renderedTexture() { return m_iRenderedTexture; }
     gl::VAO vao() { return m_VAO; }
     gl::VBO ibo() { return m_IBO; }
+
+    Glsl *shader() { return m_pShader; }
 
 private:
     TexturedScene()

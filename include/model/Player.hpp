@@ -3,6 +3,7 @@
 
 #include "model/ShaderModel.hpp"
 #include "macros.h"
+#include "util/MatrixStack.h"
 #include "math/math_aux.hpp"
 
 #include <iostream>
@@ -14,7 +15,7 @@ namespace model
     {
     public:
         Player()
-            : ShaderModel("res/player.vert", "res/player.frag"), m_fAngle(0.f)
+            : ShaderModel("res/player.vert", "res/player.frag"), m_fAngle(0.f),m_bSniperOn(false)
         {
             adjustVertexAttribs(COLORVERT);
             setDir(math::vector3f(0.f,0.f,-1.f));
@@ -94,10 +95,28 @@ namespace model
             }
         }
 
-        void onKeyEvent(int key, int state) {}
+        void onKeyEvent(int key, int state)
+        {
+            if(state == GLFW_PRESS)
+            {
+                if(key == GLFW_KEY_SPACE)
+                    m_bSniperOn = !m_bSniperOn;
+            }
+        }
+
+        bool isSniperOn() { return m_bSniperOn; }
+        int sniperMode()
+        {
+            int mode = 0;
+            if(!m_bSniperOn)
+                mode = 1;
+            return mode;
+        }
+
 
     private:
         float m_fAngle;
+        bool m_bSniperOn;
     }; //end of class Player.
 } //end of namespace model.
 
