@@ -11,9 +11,10 @@ Controller *Controller::m_sInstance = NULL;
 Controller::Controller()
     : m_Camera(math::vector3f(0.f,5.f,5.f), math::vector3f(0.f,5.f,0.f), math::vector3f(0.f,1.f,0.f)), 
       m_pGround(new model::Ground(100.f, "res/ground1.vert", "res/ground1.frag","res/normal_2.bmp")),
-      m_pPlayer(new model::Player()), m_fYaw(0.f), m_pTexturedScene(new TexturedScene())
+      m_pPlayer(new model::Player()), m_fYaw(0.f), m_pTexturedScene(new TexturedScene()),m_pCube(new model::Player())
 {
     m_Camera.setSpeed(.05f);
+    m_pCube->setPos(math::vector3f(10.f,5.f,10.f));
 }
 
 Controller::~Controller()
@@ -21,6 +22,7 @@ Controller::~Controller()
     delete m_pGround;
     delete m_pPlayer;
     delete m_pTexturedScene;
+    delete m_pCube;
 }
 
 Controller *Controller::instance()
@@ -111,6 +113,7 @@ void Controller::drawScene()
 
         m_pGround->onRender();
         m_pPlayer->onRender();
+        m_pCube->onRender();
     util::MATRIXSTACK->popMatrix();
 }
 

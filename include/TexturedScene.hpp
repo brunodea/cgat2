@@ -6,6 +6,7 @@
 #include "macros.h"
 #include "GL/glfw.h"
 #include "GL/glsl.h"
+#include "util/MatrixStack.h"
 
 class Controller;
 
@@ -32,14 +33,6 @@ public:
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
         glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,m_iRenderedTexture,0);
-        /*glGenRenderbuffers(1,&m_iDepthRenderBuffer);
-        glBindRenderbuffer(GL_RENDERBUFFER,m_iDepthRenderBuffer);
-        glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT,WINDOW_WIDTH,WINDOW_HEIGHT);
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,m_iDepthRenderBuffer);
-
-        glFramebufferTexture(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,m_iRenderedTexture,0);*/
-
-        //GLenum drawBuffers[1] = {GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT};
         glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
         if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -57,7 +50,6 @@ public:
         glDeleteBuffers(1,&m_iVAO);
         glDeleteFramebuffers(1,&m_iFBO);
         glDeleteTextures(1,&m_iRenderedTexture);
-        //glDeleteRenderbuffers(1,&m_iDepthRenderBuffer);
     }
 
     void initVBO()
@@ -87,9 +79,12 @@ public:
 
     void renderTexture(Controller *ctrl, ControllerFuncPtr pt)
     {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         glBindFramebuffer(GL_FRAMEBUFFER,m_iFBO);
         glViewport(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
         
+        util::MATRIXSTACK->setProjection(math::perspective(45.f,WINDOW_WIDTH/WINDOW_HEIGHT,0.1f,5000.f));
         (ctrl->*pt)();
 
         glBindFramebuffer(GL_FRAMEBUFFER,0);
@@ -103,17 +98,17 @@ public:
 
         glUniform1i(m_loc_u_renderedTexture,0);
         
-        glEnableVertexAttribArray(0);
-
         GLubyte indices[] = { 0,1,2, 2,3,0 };
         
         glBindVertexArray(m_iVAO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_iIBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLubyte) * 6, indices, GL_STATIC_DRAW);
         
-        ////glDrawArrays(GL_TRIANGLES,0,3);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
         
+        util::MATRIXSTACK->setProjection(math::perspective(20.f,WINDOW_WIDTH/WINDOW_HEIGHT,0.1f,5000.f));
+        (ctrl->*pt)();
+
         m_pShader->setActive(false);
     }
 
