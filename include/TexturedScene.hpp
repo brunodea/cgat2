@@ -32,8 +32,16 @@ public:
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,m_iRenderedTexture,0);
-        glDrawBuffer(GL_COLOR_ATTACHMENT0);
+        //glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,m_iRenderedTexture,0);
+        glGenRenderbuffers(1,&m_iDepthRenderBuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER,m_iDepthRenderBuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT,WINDOW_WIDTH,WINDOW_HEIGHT);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,m_iDepthRenderBuffer);
+
+        glFramebufferTexture(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,m_iRenderedTexture,0);
+
+        GLenum DrawBuffers[2] = {GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT};
+        glDrawBuffers(2, DrawBuffers);
 
         if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             std::cout << "Problem when setting up FBO." << std::endl;
@@ -50,6 +58,7 @@ public:
         glDeleteBuffers(1,&m_iVAO);
         glDeleteFramebuffers(1,&m_iFBO);
         glDeleteTextures(1,&m_iRenderedTexture);
+        glDeleteRenderbuffers(1,&m_iDepthRenderBuffer);
     }
 
     void initVBO()
