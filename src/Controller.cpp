@@ -11,10 +11,16 @@ Controller *Controller::m_sInstance = NULL;
 Controller::Controller()
     : m_Camera(math::vector3f(0.f,5.f,5.f), math::vector3f(0.f,5.f,0.f), math::vector3f(0.f,1.f,0.f)), 
       m_pGround(new model::Ground(100.f, "res/ground1.vert", "res/ground1.frag","res/normal_2.bmp")),
-      m_pPlayer(new model::Player()), m_fYaw(0.f), m_pTexturedScene(new TexturedScene()),m_pCube(new model::Player())
+      m_pPlayer(new model::Player()), m_fYaw(0.f), m_pTexturedScene(new TexturedScene())
 {
     m_Camera.setSpeed(.05f);
-    m_pCube->setPos(math::vector3f(10.f,5.f,10.f));
+    
+    m_pCube[0] = new model::Player();
+    m_pCube[1] = new model::Player();
+    m_pCube[2] = new model::Player();
+    m_pCube[0]->setPos(math::vector3f(10.f,1.f,10.f));
+    m_pCube[1]->setPos(math::vector3f(10.f,1.f,20.f));
+    m_pCube[2]->setPos(math::vector3f(10.f,1.f,30.f));
 }
 
 Controller::~Controller()
@@ -22,7 +28,9 @@ Controller::~Controller()
     delete m_pGround;
     delete m_pPlayer;
     delete m_pTexturedScene;
-    delete m_pCube;
+    delete m_pCube[0];
+    delete m_pCube[1];
+    delete m_pCube[2];
 }
 
 Controller *Controller::instance()
@@ -113,7 +121,9 @@ void Controller::drawScene()
 
         m_pGround->onRender();
         m_pPlayer->onRender();
-        m_pCube->onRender();
+        m_pCube[0]->onRender();
+        m_pCube[1]->onRender();
+        m_pCube[2]->onRender();
     util::MATRIXSTACK->popMatrix();
 }
 

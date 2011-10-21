@@ -32,7 +32,7 @@ private:
     Camera m_Camera;
     model::Ground *m_pGround;
     model::Player *m_pPlayer;
-    model::Player *m_pCube;
+    model::Player *m_pCube[3];
     
     float m_fYaw;
     TexturedScene *m_pTexturedScene;

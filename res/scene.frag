@@ -12,7 +12,7 @@ void main(void)
 	float d = distance(position.xy,vec2(0.f,0.f));
 	if(d > .6f)
 	{
-		ivec3 aux = ivec3(-4,0,4);
+		ivec3 aux = ivec3(-2,0,2);
 
 		vec4 sum = vec4(0,0,0,0);
 		sum += textureOffset(renderedTexture,UV,aux.xx);

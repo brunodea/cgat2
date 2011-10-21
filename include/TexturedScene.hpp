@@ -83,7 +83,7 @@ public:
         glViewport(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        util::MATRIXSTACK->setProjection(math::perspective(45.f,WINDOW_WIDTH/WINDOW_HEIGHT,0.1f,5000.f));
+        util::MATRIXSTACK->setProjection(math::perspective(14.f,WINDOW_WIDTH/WINDOW_HEIGHT,0.1f,5000.f));
         (ctrl->*pt)();
 
         glBindFramebuffer(GL_FRAMEBUFFER,0);
@@ -105,7 +105,7 @@ public:
         
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
         
-        util::MATRIXSTACK->setProjection(math::perspective(20.f,WINDOW_WIDTH/WINDOW_HEIGHT,0.1f,5000.f));
+        util::MATRIXSTACK->setProjection(math::perspective(45.f,WINDOW_WIDTH/WINDOW_HEIGHT,0.1f,5000.f));
         (ctrl->*pt)();
 
         m_pShader->setActive(false);
