@@ -9,20 +9,21 @@
 #include <cstdlib>
 #include <cmath>
 
-#include "gl/GLObjects.hpp"
 #include "model/GameObject.hpp"
+#include "gl/GLObjects.hpp"
+#include "model/VertexStructs.hpp"
 
 namespace model
 {
     class ShaderModel : public GameObject
     {
     public:
-        ShaderModel(char *vert_shader, char *frag_shader)
-            : GameObject(), m_pShader(new Glsl(vert_shader, frag_shader)), m_fAngle(4.25f)
+        ShaderModel(char *vert_shader, char *frag_shader, VertexStruct vs)
+            : GameObject(), m_pShader(new Glsl(vert_shader, frag_shader)), m_fAngle(4.25f),
+              m_VAO(), m_VBO()
         {
-            glGenVertexArrays(1, &m_iVAOID);
-            glBindVertexArray(m_iVAOID);
-            
+            adjustVertexAttribs(vs);
+
             m_loc_u_projection = m_pShader->getUniformLoc("projection");
             m_loc_u_modelview = m_pShader->getUniformLoc("modelview");
             m_loc_u_sunlight_pos = m_pShader->getUniformLoc("sunlightpos");
@@ -31,8 +32,6 @@ namespace model
         ~ShaderModel()
         {
             delete m_pShader;
-            glDeleteBuffers(1, &m_iVBOID);
-            glDeleteVertexArrays(1, &m_iVAOID);
         }
 
         virtual void onRender()
@@ -50,9 +49,9 @@ namespace model
 
                 glUniform3f(m_loc_u_sunlight_pos, c,s,c);
                 
-                glBindVertexArray(m_iVAOID);
+                m_VAO.bind();
                 render();
-                glBindVertexArray(0);
+                m_VAO.unbind();
 
                 afterRender();
             m_pShader->setActive(false);
@@ -62,19 +61,60 @@ namespace model
         virtual void afterRender() {}
 
         virtual void render() = 0; //renderizacao especifica do modelo.
-        virtual void initVBO() = 0; //inicializacao de vertices especifica do modelo.
+        //virtual void initVBO() = 0; //inicializacao de vertices especifica do modelo.
 
         virtual void onUpdate() = 0;
         virtual void onKeyEvent(int key, int state) = 0;
 
+        virtual void setBufferData() = 0;
+
     protected:
         Glsl *m_pShader;
-        GLuint m_iVAOID;
-        GLuint m_iVBOID;
+        gl::VAO m_VAO;
+        gl::VBO m_VBO;
         
         GLint m_loc_u_projection;
         GLint m_loc_u_modelview;
         GLint m_loc_u_sunlight_pos;
+
+    private:
+        void adjustVertexAttribs(VertexStruct vs)
+        {
+            m_VAO.bind();
+            m_VBO.bind(GL_ARRAY_BUFFER);
+                
+            setBufferData(); 
+            
+            switch(vs)
+            {
+            case POSVERT:
+                glEnableVertexAttribArray(0);
+                glVertexAttribPointer(0,4,GL_FLOAT,GL_FALSE,sizeof(PosVert),(void*)offsetof(PosVert, pos));
+
+                break;
+            case TEXVERT:
+                
+                glEnableVertexAttribArray(0);
+                glVertexAttribPointer(0,4,GL_FLOAT,GL_FALSE,sizeof(TexVert),(void*)offsetof(TexVert, pos));
+
+                glEnableVertexAttribArray(1);
+                glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,sizeof(TexVert),(void*)offsetof(TexVert, uv));
+
+                break;
+            case COLORVERT:
+                glEnableVertexAttribArray(0);
+                glVertexAttribPointer(0,4,GL_FLOAT,GL_FALSE,sizeof(ColorVert),(void*)offsetof(ColorVert, pos));
+                
+                glEnableVertexAttribArray(1);
+                glVertexAttribPointer(1,4,GL_FLOAT,GL_FALSE,sizeof(ColorVert),(void*)offsetof(ColorVert, color));
+
+                break;
+            default:
+                break;
+            }
+            m_VBO.unbind();
+            m_VAO.unbind();
+        }
 
     private:
         float m_fAngle;

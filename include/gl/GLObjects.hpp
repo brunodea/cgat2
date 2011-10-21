@@ -12,10 +12,11 @@ namespace gl
         GLObj()  {}
 
         GLuint& id() { return m_iID; }
-        
-        virtual void bind() = 0;
-        virtual void unbind() = 0;
-
+        /*
+        virtual void bind() {};
+        virtual void bind(GLenum target) {};
+        virtual void unbind() {};
+*/
     private:
         GLuint m_iID;
     };//end of class GLObj.
