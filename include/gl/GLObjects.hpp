@@ -58,7 +58,7 @@ namespace gl
         }; //end of enum Filtering.
     public:
         TEXO(GLuint curr_tex, Filtering f, GLuint sampler_unit) 
-            : GLObj(), m_CurrentTexture(curr_tex)
+            : GLObj(), m_CurrentTexture(curr_tex), m_iSamplerUnit(sampler_unit)
         { 
             glActiveTexture(m_CurrentTexture);
             glGenTextures(1,&id());

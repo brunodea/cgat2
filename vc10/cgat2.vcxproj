@@ -94,6 +94,7 @@
     <ClInclude Include="..\include\model\Player.hpp" />
     <ClInclude Include="..\include\model\ShaderModel.hpp" />
     <ClInclude Include="..\include\model\TexturedModel.hpp" />
+    <ClInclude Include="..\include\model\VertexStructs.hpp" />
     <ClInclude Include="..\include\TexturedScene.hpp" />
     <ClInclude Include="..\include\util\MatrixStack.h" />
   </ItemGroup>

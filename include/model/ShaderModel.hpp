@@ -18,12 +18,10 @@ namespace model
     class ShaderModel : public GameObject
     {
     public:
-        ShaderModel(char *vert_shader, char *frag_shader, VertexStruct vs)
+        ShaderModel(char *vert_shader, char *frag_shader)
             : GameObject(), m_pShader(new Glsl(vert_shader, frag_shader)), m_fAngle(4.25f),
               m_VAO(), m_VBO()
         {
-            adjustVertexAttribs(vs);
-
             m_loc_u_projection = m_pShader->getUniformLoc("projection");
             m_loc_u_modelview = m_pShader->getUniformLoc("modelview");
             m_loc_u_sunlight_pos = m_pShader->getUniformLoc("sunlightpos");
@@ -61,23 +59,13 @@ namespace model
         virtual void afterRender() {}
 
         virtual void render() = 0; //renderizacao especifica do modelo.
-        //virtual void initVBO() = 0; //inicializacao de vertices especifica do modelo.
-
+       
         virtual void onUpdate() = 0;
         virtual void onKeyEvent(int key, int state) = 0;
 
         virtual void setBufferData() = 0;
 
     protected:
-        Glsl *m_pShader;
-        gl::VAO m_VAO;
-        gl::VBO m_VBO;
-        
-        GLint m_loc_u_projection;
-        GLint m_loc_u_modelview;
-        GLint m_loc_u_sunlight_pos;
-
-    private:
         void adjustVertexAttribs(VertexStruct vs)
         {
             m_VAO.bind();
@@ -115,6 +103,14 @@ namespace model
             m_VBO.unbind();
             m_VAO.unbind();
         }
+    protected:
+        Glsl *m_pShader;
+        gl::VAO m_VAO;
+        gl::VBO m_VBO;
+        
+        GLint m_loc_u_projection;
+        GLint m_loc_u_modelview;
+        GLint m_loc_u_sunlight_pos;
 
     private:
         float m_fAngle;

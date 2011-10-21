@@ -15,13 +15,13 @@ namespace model
         float pos[4];
     }; //end of class VertexStructs.
 
-    struct TexVert : public PosVert
+    struct TexVert
     {
         float pos[4];
         float uv[2]; //u,v
     }; //end of struct TexVert.
 
-    struct ColorVert : public PosVert
+    struct ColorVert
     {
         float pos[4];
         float color[4]; //rgba

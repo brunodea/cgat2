@@ -17,13 +17,14 @@
 
 namespace model
 {
-    class Ground : public TexturedModel, public ShaderModel
+    class Ground : public TexturedModel
     {
     public:
         Ground(float size, char *vert_shader, char *frag_shader, char *texture_filename)
-            : m_fSize(size), TexturedModel(texture_filename, GL_TEXTURE0), ShaderModel(vert_shader, frag_shader)
+            : m_fSize(size),
+            TexturedModel(vert_shader, frag_shader,texture_filename,GL_TEXTURE0,gl::TEXO::GOOD,0)
         {
-            initVBO();
+            adjustVertexAttribs(TEXVERT);
         }
 
         void beforeRender()
@@ -43,52 +44,27 @@ namespace model
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
         }
 
-        void initVBO()
+        void setBufferData()
         {
-            glGenVertexArrays(1, &m_iVAOID);
-            glBindVertexArray(m_iVAOID);
-
-            float r = 10.f;
+            float r = 100.f; //repeat the texture.
             float s = m_fSize/2.f;
             float x = pos()[0];
             float y = pos()[1];
             float z = pos()[2];
 
-            float rr = 100.f;
-            struct vertex_data d[4] = {
-                    { -s+x ,  y, -s+z, 1.f,  0.f,rr  },
-                    {  s+x ,  y, -s+z, 1.f,  rr,rr  },
-                    {  s+x , y,  s+z, 1.f,  rr,0.f  },
+            struct TexVert d[4] = {
+                    { -s+x ,  y, -s+z, 1.f,  0.f,r  },
+                    {  s+x ,  y, -s+z, 1.f,  r,r  },
+                    {  s+x , y,  s+z, 1.f,  r,0.f  },
                     { -s+x , y,  s+z, 1.f,  0.f,0.f  }
             };
-            
-            m_Data = &d[0];
-            
-            initTOB(100);
-
-            glGenBuffers(1, &m_iVBOID);
-            glBindBuffer(GL_ARRAY_BUFFER, m_iVBOID);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data)*4, m_Data, GL_STATIC_DRAW);
-            
-
-          /*  glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0,2,GL_FLOAT,GL_TRUE,sizeof(vertex_data),(char*)0 + offsetof(vertex_data, uv));*/
-
-		    glEnableVertexAttribArray(1);
-            glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertex_data), (char*)0 + offsetof(vertex_data, pos));
+            glBufferData(GL_ARRAY_BUFFER, sizeof(TexVert)*4, &d[0], GL_STATIC_DRAW);
         }
 
         void onUpdate() {}
         void onKeyEvent(int key, int state) {}
         
     private:
-        struct vertex_data
-        {
-            float pos[4]; //x,y,z,w
-            float uv[2];
-        };
-    private:
-        struct vertex_data *m_Data;
         float m_fSize;
     }; //end of class Ground.
 } //end of namespace model.
