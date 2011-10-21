@@ -73,6 +73,19 @@ public:
             if(m_fZoom < 0.f)
                 m_fZoom = 0.f;
         }
+
+        if(glfwGetKey(GLFW_KEY_RCTRL) == GLFW_PRESS)
+        {
+            m_fScopeDiameter += 0.01f;
+            if(m_fScopeDiameter > .5f)
+                m_fScopeDiameter = .5f;
+        }
+        else if(glfwGetKey(GLFW_KEY_RSHIFT) == GLFW_PRESS)
+        {
+            m_fScopeDiameter -= 0.01f;
+            if(m_fScopeDiameter < .05f)
+                m_fScopeDiameter = .05f;
+        }
     }
 
     void renderScene()
@@ -104,6 +117,7 @@ public:
         glBindTexture(GL_TEXTURE_2D,m_iRenderedTexture);
 
         glUniform1i(m_loc_u_renderedTexture,0);
+        glUniform1f(m_loc_u_scope_diameter,m_fScopeDiameter);
         
         GLubyte indices[] = { 0,1,2, 2,3,0 };
         
@@ -127,7 +141,7 @@ public:
 
 private:
     TexturedScene()
-        : m_pShader(new Glsl("res/scene.vert", "res/scene.frag")), m_fZoom(45.f),m_VBO(),m_VAO(),m_IBO()
+        : m_pShader(new Glsl("res/scene.vert", "res/scene.frag")), m_fZoom(45.f),m_VBO(),m_VAO(),m_IBO(), m_fScopeDiameter(.25f)
     {
         glGenFramebuffers(1,&m_iFBO);
         glBindFramebuffer(GL_FRAMEBUFFER,m_iFBO);
@@ -158,6 +172,7 @@ private:
             std::cout << "Problem when setting up FBO." << std::endl;
 
         m_loc_u_renderedTexture = m_pShader->getUniformLoc("renderedTexture");
+        m_loc_u_scope_diameter = m_pShader->getUniformLoc("scopeDiameter");
         initVBO();
     }
 
@@ -180,7 +195,9 @@ private:
 
     Glsl *m_pShader;
     GLuint m_loc_u_renderedTexture;
+    GLuint m_loc_u_scope_diameter;
     float m_fZoom;
+    float m_fScopeDiameter;
 };
 
 #endif

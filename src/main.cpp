@@ -124,7 +124,9 @@ void help()
     std::cout << "Comandos:                        " << std::endl;
     std::cout << "I/K move o player para frente e para tras." << std::endl;
     std::cout << "J/L rotaciona para esquerda/direita." << std::endl;
+    std::cout << "P/U rotaciona para cima/baixo." << std::endl;
     std::cout << "V/B aumenta/diminui o zoom da sniper." << std::endl;
+    std::cout << "RSHIFT/RCTRL aumenta/diminui o diametro da sniper." << std::endl;
 }
 
 int main()
