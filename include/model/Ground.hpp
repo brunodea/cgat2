@@ -15,6 +15,8 @@
 #include "model/TexturedModel.hpp"
 #include "model/ShaderModel.hpp"
 
+#include "util/CommonShader.hpp"
+
 namespace model
 {
     class Ground : public TexturedModel
@@ -39,6 +41,8 @@ namespace model
 
         void render()
         {
+            util::setMatrices(m_pShader);
+            util::setSunlight(m_pShader);
             GLubyte indices[] = { 0,1,2,
                                   2,3,0 };
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);

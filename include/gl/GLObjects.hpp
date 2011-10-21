@@ -47,7 +47,7 @@ namespace gl
     private:
         GLenum m_BindTarget;
     }; //end of class VBO.
-
+    
     class TEXO : public GLObj
     {
     public:
@@ -114,6 +114,109 @@ namespace gl
         GLuint m_iSamplerID;
         GLuint m_iSamplerUnit;
     }; //end of class TEXO.
+
+    class RBO : public GLObj
+    {
+    public:
+        RBO() 
+            : GLObj()
+        {
+            glGenRenderbuffers(1,&id());
+        }
+
+        ~RBO()
+        {
+            glDeleteRenderbuffers(1,&id());
+        }
+
+        void bind() { glBindRenderbuffer(GL_RENDERBUFFER,id()); }
+        void unbind() { glBindRenderbuffer(GL_RENDERBUFFER,0); }
+
+        void setStorage(GLenum internalformat, int width, int height)
+        {
+            glRenderbufferStorage(GL_RENDERBUFFER,internalformat,width,height);
+        }
+
+    }; //end of class RBO. //render buffer object.
+
+    class FBO : public GLObj
+    {
+    public:
+        enum Filtering
+        {
+            GOOD,
+            BAD
+        }; //end of enum Filtering.
+    public:
+        FBO(GLenum target_framebuffer, GLuint active_texture, Filtering f, int width, int height)
+            : GLObj(), m_TargetFramebuffer(target_framebuffer), m_CurrentTexture(active_texture), m_RBO()
+        {
+            glGenFramebuffers(1,&id());
+
+            glActiveTexture(m_CurrentTexture);
+            glGenTextures(1,&m_iRenderedTexture);
+            
+        glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,width,height,0,GL_RGB,GL_UNSIGNED_BYTE,0);
+            adjustTexParameters(f);
+
+            m_RBO.bind();
+            m_RBO.setStorage(GL_DEPTH_COMPONENT,width,height);
+            glFramebufferRenderbuffer(m_TargetFramebuffer,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,m_RBO.id());
+
+            glFramebufferTexture(m_TargetFramebuffer, GL_COLOR_ATTACHMENT0,m_iRenderedTexture,0);
+            
+            GLenum DrawBuffers[2] = {GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT};
+            glDrawBuffers(2, DrawBuffers);
+
+            if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+                std::cout << "Problem when setting up FBO." << std::endl;
+        }
+        ~FBO()
+        {
+            glDeleteFramebuffers(1,&id());
+            glDeleteTextures(1,&m_iRenderedTexture);
+        }
+
+        void bind() 
+        {
+            glBindFramebuffer(m_TargetFramebuffer,id());
+            glActiveTexture(m_CurrentTexture);
+            glBindTexture(GL_TEXTURE_2D,m_iRenderedTexture);
+            m_RBO.bind();
+        }
+
+        void unbind()
+        {
+            glBindFramebuffer(m_TargetFramebuffer,0);
+            glBindTexture(GL_TEXTURE_2D,0);
+            m_RBO.unbind();
+        }
+
+        void adjustTexParameters(Filtering f)
+        {
+            if(f == GOOD)
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            }
+            else if(f == BAD)
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            }
+        }
+
+    private:
+        GLuint m_iRenderedTexture;
+        GLuint m_CurrentTexture; //GL_TEXTURE0,GL_TEXTURE1,etc.
+        GLenum m_TargetTexture;
+        GLenum m_TargetFramebuffer;
+        RBO m_RBO;
+    }; //end of class FBO.
 }// end of namespace gl.
 
 #endif

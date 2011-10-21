@@ -22,9 +22,6 @@ namespace model
             : GameObject(), m_pShader(new Glsl(vert_shader, frag_shader)), m_fAngle(4.25f),
               m_VAO(), m_VBO()
         {
-            m_loc_u_projection = m_pShader->getUniformLoc("projection");
-            m_loc_u_modelview = m_pShader->getUniformLoc("modelview");
-            m_loc_u_sunlight_pos = m_pShader->getUniformLoc("sunlightpos");
         }
         
         ~ShaderModel()
@@ -36,16 +33,6 @@ namespace model
         {
             m_pShader->setActive(true);
                 beforeRender();
-
-                glUniformMatrix4fv(m_loc_u_projection, 1, GL_TRUE, util::MATRIXSTACK->projection().elements());
-                glUniformMatrix4fv(m_loc_u_modelview, 1, GL_TRUE, util::MATRIXSTACK->top().elements());
-
-                //m_fAngle = (m_fAngle > 1000000.f) ? 4.5f : m_fAngle + .01f;
-
-                float s = sin((double)m_fAngle);
-                float c = cos((double)m_fAngle);
-
-                glUniform3f(m_loc_u_sunlight_pos, c,s,c);
                 
                 m_VAO.bind();
                 render();
@@ -107,10 +94,6 @@ namespace model
         Glsl *m_pShader;
         gl::VAO m_VAO;
         gl::VBO m_VBO;
-        
-        GLint m_loc_u_projection;
-        GLint m_loc_u_modelview;
-        GLint m_loc_u_sunlight_pos;
 
     private:
         float m_fAngle;

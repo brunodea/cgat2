@@ -134,6 +134,9 @@
     <ClInclude Include="..\include\model\VertexStructs.hpp">
       <Filter>Header Files\model</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\util\CommonShader.hpp">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\res\ground1.frag">

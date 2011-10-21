@@ -6,6 +6,7 @@
 #include "math/math_aux.hpp"
 
 #include <iostream>
+#include "util/CommonShader.hpp"
 
 namespace model
 {
@@ -21,6 +22,8 @@ namespace model
         
         void render() 
         {
+            util::setMatrices(m_pShader);
+
             m_VBO.bind(GL_ARRAY_BUFFER);
             setBufferData();
             m_VBO.unbind();

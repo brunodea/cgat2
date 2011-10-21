@@ -80,6 +80,7 @@ void Controller::onUpdate()
 {
     cameraMove();
     m_pPlayer->onUpdate();
+    m_pTexturedScene->onUpdate();
 }
 
 void Controller::onRender()
