@@ -46,6 +46,9 @@
     <Filter Include="Resource Files\scene">
       <UniqueIdentifier>{5d436b51-70b7-4104-84b0-a06f316bc8c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\model\gl">
+      <UniqueIdentifier>{3365cebf-9554-4b65-8a6c-508f8611f2c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="..\dependencies\GL\gl3w.hpp">
       <Filter>dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\gl\GLObjects.hpp">
+      <Filter>Header Files\model\gl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

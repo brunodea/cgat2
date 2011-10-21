@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cmath>
 
+#include "gl/GLObjects.hpp"
 #include "model/GameObject.hpp"
 
 namespace model

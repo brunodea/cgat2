@@ -83,6 +83,7 @@
     <ClInclude Include="..\dependencies\GL\glsl.h" />
     <ClInclude Include="..\include\Camera.hpp" />
     <ClInclude Include="..\include\Controller.h" />
+    <ClInclude Include="..\include\gl\GLObjects.hpp" />
     <ClInclude Include="..\include\macros.h" />
     <ClInclude Include="..\include\math\math_aux.hpp" />
     <ClInclude Include="..\include\math\Matrix.hpp" />
