@@ -10,6 +10,7 @@ void main(void)
 	out_Color = texture2D(renderedTexture,UV).rgba;
 
 	float d = distance(UV,vec2(0.5f,0.5f));
+
 	if(d > .25f)
 	{
 		ivec3 aux = ivec3(-2,0,2);
@@ -30,7 +31,7 @@ void main(void)
 
 		out_Color = sum;
 	}
-	else if(d >= .24f || d <= 0.005f)
+	else if(d >= .24f || /*d <= 0.005f*/ (UV.x <= 0.5f && UV.x >= 0.499f) || (UV.y <= 0.5f && UV.y >= 0.499f))
 		out_Color = vec4(0,0,0,1);
 	else
 		discard;
