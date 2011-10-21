@@ -69,6 +69,9 @@
     <ClCompile Include="..\dependencies\gl3w.cpp">
       <Filter>dependencies</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\TexturedScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\macros.h">

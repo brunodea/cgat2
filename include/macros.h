@@ -8,5 +8,7 @@
 
 #define CONTROLLER Controller::instance()
 #define MATRIXSTACK MatrixStack::instance()
+#define TEXTUREDSCENE TexturedScene::instance()
+
 
 #endif

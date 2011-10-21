@@ -6,7 +6,6 @@
 #include "Camera.hpp"
 #include "model/Player.hpp"
 #include "GL/glfw.h"
-#include "TexturedScene.hpp"
 
 class Controller
 {
@@ -18,7 +17,8 @@ public:
 
     void keyEvent(int key, int state);
     void mouseMoved(int x, int y);
-
+    
+    void drawScene();
 private:
     Controller();
     void onUpdate();
@@ -26,7 +26,6 @@ private:
 
     void cameraMove();
 
-    void drawScene();
 private:
     static Controller *m_sInstance;
     Camera m_Camera;
@@ -35,7 +34,6 @@ private:
     model::Player *m_pCube[3];
     
     float m_fYaw;
-    TexturedScene *m_pTexturedScene;
 }; //end of class controller.
 
 #endif

@@ -4,6 +4,7 @@
 
 #include "util/MatrixStack.h"
 #include "macros.h"
+#include "TexturedScene.hpp"
 #include <cmath>
 
 Controller *Controller::m_sInstance = NULL;
@@ -11,7 +12,7 @@ Controller *Controller::m_sInstance = NULL;
 Controller::Controller()
     : m_Camera(math::vector3f(0.f,5.f,5.f), math::vector3f(0.f,5.f,0.f), math::vector3f(0.f,1.f,0.f)), 
       m_pGround(new model::Ground(100.f, "res/ground1.vert", "res/ground1.frag","res/normal_2.bmp")),
-      m_pPlayer(new model::Player()), m_fYaw(0.f), m_pTexturedScene(new TexturedScene())
+      m_pPlayer(new model::Player()), m_fYaw(0.f)
 {
     m_Camera.setSpeed(.05f);
     
@@ -27,7 +28,6 @@ Controller::~Controller()
 {
     delete m_pGround;
     delete m_pPlayer;
-    delete m_pTexturedScene;
     delete m_pCube[0];
     delete m_pCube[1];
     delete m_pCube[2];
@@ -80,7 +80,6 @@ void Controller::onUpdate()
 {
     cameraMove();
     m_pPlayer->onUpdate();
-    m_pTexturedScene->onUpdate();
 }
 
 void Controller::onRender()
@@ -88,7 +87,7 @@ void Controller::onRender()
     //util::MATRIXSTACK->setProjection(math::ortho(-WINDOW_WIDTH/2.f,WINDOW_WIDTH/2.f,-WINDOW_HEIGHT/2.f,WINDOW_HEIGHT/2.f,-1.f,1.f));
     //util::MATRIXSTACK->setProjection(math::ortho(0.f,WINDOW_WIDTH,0.f,WINDOW_HEIGHT,-1.f,1.f));
     
-    m_pTexturedScene->renderTexture(this, &Controller::drawScene);
+    TEXTUREDSCENE->renderTexture();
     //drawScene();
 }
 

@@ -73,6 +73,7 @@
     <ClCompile Include="..\dependencies\glsl.cpp" />
     <ClCompile Include="..\src\Controller.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\TexturedScene.cpp" />
     <ClCompile Include="..\src\util\MatrixStack.cpp" />
   </ItemGroup>
   <ItemGroup>

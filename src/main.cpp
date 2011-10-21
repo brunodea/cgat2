@@ -11,6 +11,7 @@
 
 #include "macros.h"
 #include "Controller.h"
+#include "TexturedScene.hpp"
 #include "util/MatrixStack.h"
 #include "math/matrix_functions.hpp"
 
@@ -113,6 +114,7 @@ void clean()
 {
     delete util::MATRIXSTACK;
     delete CONTROLLER;
+    delete TEXTUREDSCENE;
 }
 
 int main()
