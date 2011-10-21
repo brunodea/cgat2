@@ -54,11 +54,12 @@ namespace model
             float y = pos()[1];
             float z = pos()[2];
 
+            float rr = 100.f;
             struct vertex_data d[4] = {
-                    { -s+x ,  y, -s+z, 1.f  },
-                    {  s+x ,  y, -s+z, 1.f  },
-                    {  s+x , y,  s+z, 1.f  },
-                    { -s+x , y,  s+z, 1.f  }
+                    { -s+x ,  y, -s+z, 1.f,  0.f,rr  },
+                    {  s+x ,  y, -s+z, 1.f,  rr,rr  },
+                    {  s+x , y,  s+z, 1.f,  rr,0.f  },
+                    { -s+x , y,  s+z, 1.f,  0.f,0.f  }
             };
             
             m_Data = &d[0];
@@ -69,9 +70,12 @@ namespace model
             glBindBuffer(GL_ARRAY_BUFFER, m_iVBOID);
             glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data)*4, m_Data, GL_STATIC_DRAW);
             
+
+          /*  glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0,2,GL_FLOAT,GL_TRUE,sizeof(vertex_data),(char*)0 + offsetof(vertex_data, uv));*/
+
 		    glEnableVertexAttribArray(1);
-            glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertex_data), 0);
-            //(char*)0 + offsetof(vertex_data, pos));
+            glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertex_data), (char*)0 + offsetof(vertex_data, pos));
         }
 
         void onUpdate() {}
@@ -81,6 +85,7 @@ namespace model
         struct vertex_data
         {
             float pos[4]; //x,y,z,w
+            float uv[2];
         };
     private:
         struct vertex_data *m_Data;

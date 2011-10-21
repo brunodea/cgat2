@@ -76,8 +76,9 @@ void Controller::onRender()
 {
     //util::MATRIXSTACK->setProjection(math::ortho(-WINDOW_WIDTH/2.f,WINDOW_WIDTH/2.f,-WINDOW_HEIGHT/2.f,WINDOW_HEIGHT/2.f,-1.f,1.f));
     //util::MATRIXSTACK->setProjection(math::ortho(0.f,WINDOW_WIDTH,0.f,WINDOW_HEIGHT,-1.f,1.f));
-    m_pTexturedScene->setTexture(this, &Controller::drawScene);
-    m_pTexturedScene->onRender();
+    
+    m_pTexturedScene->renderTexture(this, &Controller::drawScene);
+    //drawScene();
 }
 
 void Controller::drawScene()

@@ -1,116 +1,139 @@
 #ifndef _CGA_T2_TEXTURED_SCENE_HPP_
 #define _CGA_T2_TEXTURED_SCENE_HPP_
 
+#include <iostream>
+#include <cstdlib>
 #include "macros.h"
-#include "model/TexturedModel.hpp"
-#include "model/ShaderModel.hpp"
 #include "GL/glfw.h"
+#include "GL/glsl.h"
 
 class Controller;
+
 typedef void (Controller::*ControllerFuncPtr)(void);
 
-class TexturedScene : public model::TexturedModel, model::ShaderModel
+class TexturedScene
 {
 public:
     TexturedScene()
-        : model::TexturedModel(WINDOW_WIDTH, WINDOW_HEIGHT, GL_TEXTURE1),
-          model::ShaderModel("res/player.vert","res/player.frag")
-    { initVBO(); }
-
-    void beforeRender()
+        : m_pShader(new Glsl("res/scene.vert", "res/scene.frag"))
     {
-        renderTexture();
+        glGenFramebuffers(1,&m_iFBO);
+        glBindFramebuffer(GL_FRAMEBUFFER,m_iFBO);
+        
+        glActiveTexture(GL_TEXTURE0);
+        glGenTextures(1,&m_iRenderedTexture);
+        glBindTexture(GL_TEXTURE_2D,m_iRenderedTexture);
+
+        glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,WINDOW_WIDTH,WINDOW_HEIGHT,0,GL_RGB,GL_UNSIGNED_BYTE,0);
+        
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); 
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+        glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,m_iRenderedTexture,0);
+        /*glGenRenderbuffers(1,&m_iDepthRenderBuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER,m_iDepthRenderBuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT,WINDOW_WIDTH,WINDOW_HEIGHT);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,m_iDepthRenderBuffer);
+
+        glFramebufferTexture(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,m_iRenderedTexture,0);*/
+
+        //GLenum drawBuffers[1] = {GL_COLOR_ATTACHMENT0,GL_DEPTH_ATTACHMENT};
+        glDrawBuffer(GL_COLOR_ATTACHMENT0);
+
+        if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+            std::cout << "Problem when setting up FBO." << std::endl;
+
+        m_loc_u_renderedTexture = m_pShader->getUniformLoc("renderedTexture");
+        initVBO();
+        glGenBuffers(1,&m_iIBO);
     }
 
-    void afterRender()
+    ~TexturedScene()
     {
-        afterRenderTexture();
-    }
-
-    void onRender()
-    {
-        m_pShader->setActive(true);
-            beforeRender();
-
-            glUniformMatrix4fv(m_loc_u_projection, 1, GL_TRUE, util::MATRIXSTACK->projection().elements());
-            glUniformMatrix4fv(m_loc_u_modelview, 1, GL_TRUE, util::MATRIXSTACK->top().elements());
-
-            //m_fAngle = (m_fAngle > 1000000.f) ? 4.5f : m_fAngle + .01f;
-
-            float s = sin((double)0.5f);
-            float c = cos((double)0.789f);
-
-            glUniform3f(m_loc_u_sunlight_pos, c,s,c);
-                
-            glBindVertexArray(m_iVAOID);
-            render();
-            glBindVertexArray(0);
-
-            afterRender();
-        m_pShader->setActive(false);
-    }
-
-    void render()
-    {
-        GLubyte indices[] = { 0,1,2,
-                              2,3,0 };
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-    }
-
-    void setTexture(Controller *c, ControllerFuncPtr fptr)
-    {
-        glDrawBuffer(GL_BACK);
-        glReadBuffer(GL_BACK);
-
-        glViewport(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
-
-        (c->*fptr)();
-
-        glFlush();
-
-        glBindTexture(GL_TEXTURE_2D, m_iTextureID);
-        glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0); //Tambem pode ser usado: glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, TEXTURE_WIDTH, TEXTURE_HEIGHT);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        delete m_pShader;
+        glDeleteBuffers(1,&m_iVBO);
+        glDeleteBuffers(1,&m_iVAO);
+        glDeleteFramebuffers(1,&m_iFBO);
+        glDeleteTextures(1,&m_iRenderedTexture);
+        //glDeleteRenderbuffers(1,&m_iDepthRenderBuffer);
     }
 
     void initVBO()
     {
-        glGenVertexArrays(1, &m_iVAOID);
-        glBindVertexArray(m_iVAOID);
+        glGenVertexArrays(1,&m_iVAO);
+        glBindVertexArray(m_iVAO);
 
-        float r = 10.f;
-        float w = WINDOW_WIDTH;
-        float h = WINDOW_HEIGHT;
-
-        struct vertex_data d[4] = {
-                { 0,0 },
-                { 0,h },
-                { w,h },
-                { w,0 }
+        struct vertex_data d[4] =
+        {
+            /*    Pos     */  /* UV */
+            {-1.f,-1.f, .0f,  .0f,.0f},
+            {-1.f, 1.f, .0f,  .0f,1.f},
+            { 1.f, 1.f, .0f,  1.f,1.f},
+            { 1.f, -1.f,.0f,  1.f,.0f}
         };
-            
-        m_Data = &d[0];
-            
-        initTOB(1);
+        
+        glGenBuffers(1,&m_iVBO);
+        glBindBuffer(GL_ARRAY_BUFFER,m_iVBO);
+        glBufferData(GL_ARRAY_BUFFER,sizeof(vertex_data)*4,&d[0],GL_STATIC_DRAW);
+                
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(vertex_data),(void*)offsetof(vertex_data, pos));
 
-        glGenBuffers(1, &m_iVBOID);
-        glBindBuffer(GL_ARRAY_BUFFER, m_iVBOID);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data)*4, m_Data, GL_STATIC_DRAW);
-            
-		glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertex_data), 0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,sizeof(vertex_data),(void*)offsetof(vertex_data, uv));
     }
 
-    void onUpdate() {}
-    void onKeyEvent(int key, int state) {}
+    void renderTexture(Controller *ctrl, ControllerFuncPtr pt)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER,m_iFBO);
+        glViewport(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+        
+        (ctrl->*pt)();
+
+        glBindFramebuffer(GL_FRAMEBUFFER,0);
+        glViewport(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        m_pShader->setActive(true);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D,m_iRenderedTexture);
+
+        glUniform1i(m_loc_u_renderedTexture,0);
+        
+        glEnableVertexAttribArray(0);
+
+        GLubyte indices[] = { 0,1,2, 2,3,0 };
+        
+        glBindVertexArray(m_iVAO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_iIBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLubyte) * 6, indices, GL_STATIC_DRAW);
+        
+        ////glDrawArrays(GL_TRIANGLES,0,3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
+        
+        m_pShader->setActive(false);
+    }
 
 private:
     struct vertex_data
     {
-        float pos[2]; //x,y
+        float pos[3];
+        float uv[2];
     };
+
 private:
-    struct vertex_data *m_Data;
+    GLuint m_iFBO;
+    GLuint m_iRenderedTexture;
+    GLuint m_iDepthRenderBuffer;
+    GLuint m_iVAO;
+    GLuint m_iVBO;
+    GLuint m_iIBO;
+
+    Glsl *m_pShader;
+    GLuint m_loc_u_renderedTexture;
 };
 
 #endif

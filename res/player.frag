@@ -8,8 +8,6 @@ out vec4 out_Color;
 void main(void)
 {
 	float value = sunlightpos.x;
-	//if(value != 99999)
-	//	out_Color = color;
-	//else
-		out_Color = ex_Color;
+
+	out_Color = ex_Color;
 }

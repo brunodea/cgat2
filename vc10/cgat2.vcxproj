@@ -101,6 +101,8 @@
     <None Include="..\res\ground1.vert" />
     <None Include="..\res\player.frag" />
     <None Include="..\res\player.vert" />
+    <None Include="..\res\scene.frag" />
+    <None Include="..\res\scene.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

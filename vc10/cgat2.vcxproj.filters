@@ -43,13 +43,13 @@
     <Filter Include="Resource Files\player">
       <UniqueIdentifier>{4b248cbe-aff8-41ec-9862-99120518a181}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\scene">
+      <UniqueIdentifier>{5d436b51-70b7-4104-84b0-a06f316bc8c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\dependencies\gl3w.cpp">
-      <Filter>dependencies</Filter>
     </ClCompile>
     <ClCompile Include="..\dependencies\glsl.cpp">
       <Filter>dependencies</Filter>
@@ -63,15 +63,15 @@
     <ClCompile Include="..\src\util\MatrixStack.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
+    <ClCompile Include="..\dependencies\gl3w.cpp">
+      <Filter>dependencies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\dependencies\GL\gl3.h">
-      <Filter>dependencies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\dependencies\GL\gl3w.hpp">
       <Filter>dependencies</Filter>
     </ClInclude>
     <ClInclude Include="..\dependencies\GL\glfw.h">
@@ -122,6 +122,9 @@
     <ClInclude Include="..\include\TexturedScene.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\dependencies\GL\gl3w.hpp">
+      <Filter>dependencies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\res\ground1.frag">
@@ -135,6 +138,12 @@
     </None>
     <None Include="..\res\player.vert">
       <Filter>Resource Files\player</Filter>
+    </None>
+    <None Include="..\res\scene.frag">
+      <Filter>Resource Files\scene</Filter>
+    </None>
+    <None Include="..\res\scene.vert">
+      <Filter>Resource Files\scene</Filter>
     </None>
   </ItemGroup>
 </Project>
