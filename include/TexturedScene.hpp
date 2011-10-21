@@ -79,17 +79,16 @@ public:
 
     void renderTexture(Controller *ctrl, ControllerFuncPtr pt)
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
         glBindFramebuffer(GL_FRAMEBUFFER,m_iFBO);
         glViewport(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
         
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         util::MATRIXSTACK->setProjection(math::perspective(45.f,WINDOW_WIDTH/WINDOW_HEIGHT,0.1f,5000.f));
         (ctrl->*pt)();
 
         glBindFramebuffer(GL_FRAMEBUFFER,0);
         glViewport(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
-
+        
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_pShader->setActive(true);
 
