@@ -3,14 +3,14 @@
 uniform sampler2D renderedTexture;
 in vec2 UV;
 in vec4 position;
-layout(location = 0) out vec3 out_Color;
+layout(location = 0) out vec4 out_Color;
 
 void main(void) 
 {
-	out_Color = texture2D(renderedTexture,UV).rgb;
+	out_Color = texture2D(renderedTexture,UV).rgba;
 
-	float d = distance(position.xy,vec2(0.f,0.f));
-	if(d > .4f)
+	float d = distance(UV,vec2(0.5f,0.5f));
+	if(d > .25f)
 	{
 		ivec3 aux = ivec3(-2,0,2);
 
@@ -28,10 +28,10 @@ void main(void)
 
 		sum /= 8.f;
 
-		out_Color = sum.rgb;
+		out_Color = sum;
 	}
-	else if(d >= .38f)
-		out_Color = vec3(0,0,0);
+	else if(d >= .24f || d <= 0.005f)
+		out_Color = vec4(0,0,0,1);
 	else
 		discard;
 }
