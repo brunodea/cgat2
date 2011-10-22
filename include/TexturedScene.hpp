@@ -70,8 +70,8 @@ public:
         else if(glfwGetKey('B') == GLFW_PRESS)
         {
             m_fZoom -= 1.f;
-            if(m_fZoom < 0.f)
-                m_fZoom = 0.f;
+            if(m_fZoom < 5.f)
+                m_fZoom = 5.f;
         }
 
         if(glfwGetKey(GLFW_KEY_RCTRL) == GLFW_PRESS)

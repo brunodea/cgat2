@@ -23,7 +23,7 @@ namespace model
     {
     public:
         Ground(float size, char *vert_shader, char *frag_shader, char *texture_filename)
-            : m_fSize(size),m_fSunlightAngle(10.f),
+            : m_fSize(size),m_fSunlightAngle(10.f),m_bSunOn(true),
             TexturedModel(vert_shader, frag_shader,texture_filename,GL_TEXTURE0,gl::TEXO::GOOD,0)
         {
             adjustVertexAttribs(TEXVERT);
@@ -41,7 +41,10 @@ namespace model
 
         void render()
         {
-            m_fSunlightAngle = (m_fSunlightAngle > 10000.f) ? 0.f : m_fSunlightAngle + 0.001f;
+            if(m_bSunOn)
+                m_fSunlightAngle = (m_fSunlightAngle > 10000.f) ? 0.f : m_fSunlightAngle + 0.001f;
+            else
+                m_fSunlightAngle = 10.f;
             util::setMatrices(m_pShader);
             util::setSunlight(m_pShader,m_fSunlightAngle);
             GLubyte indices[] = { 0,1,2,
@@ -66,12 +69,20 @@ namespace model
             glBufferData(GL_ARRAY_BUFFER, sizeof(TexVert)*4, &d[0], GL_STATIC_DRAW);
         }
 
-        void onUpdate() {}
-        void onKeyEvent(int key, int state) {}
+        void onUpdate() 
+        {
+            if(glfwGetKey('F') == GLFW_PRESS)
+                m_bSunOn = !m_bSunOn;
+        }
+
+        void onKeyEvent(int key, int state) 
+        {
+        }
         
     private:
         float m_fSize;
         float m_fSunlightAngle;
+        bool m_bSunOn;
     }; //end of class Ground.
 } //end of namespace model.
 

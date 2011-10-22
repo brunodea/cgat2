@@ -80,6 +80,7 @@ void Controller::onUpdate()
 {
     cameraMove();
     m_pPlayer->onUpdate();
+    m_pGround->onUpdate();
     TEXTUREDSCENE->onUpdate();
 }
 
@@ -156,9 +157,13 @@ void Controller::cameraMove()
     if(glfwGetKey('U') == GLFW_PRESS)
     {
         m_fUpDownAngle += 1.f;
+        if(m_fUpDownAngle > 90.f)
+            m_fUpDownAngle = 90.f;
     }
     else if(glfwGetKey('O') == GLFW_PRESS)
     {
         m_fUpDownAngle -= 1.f;
+        if(m_fUpDownAngle < -90.f)
+            m_fUpDownAngle = -90.f;
     }
 }
