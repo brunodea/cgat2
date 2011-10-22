@@ -1,3 +1,6 @@
+/*
+    Classe que faz o controle geral da aplicação (com o loop).
+*/
 #ifndef _CGA_T2_CONTROLLER_H_
 #define _CGA_T2_CONTROLLER_H_
 

@@ -1,3 +1,6 @@
+/*
+    Classe que simula o que o OpenGL faz nas suas versões mais antigas. (Pilha de matrizes).
+*/
 #ifndef _CGA_T2_MATRIX_STACK_HPP_
 #define _CGA_T2_MATRIX_STACK_HPP_
 

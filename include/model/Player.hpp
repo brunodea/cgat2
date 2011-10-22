@@ -1,3 +1,9 @@
+/*
+    Classe utilizada para representar o jogador na aplicação.
+    Foi também utilizada para posicionar outros elementos na cena (os outros cubos). Mas que só estão lá
+    para serem desenhados.
+*/
+
 #ifndef _CGA_T2_PLAYER_HPP_
 #define _CGA_T2_PLAYER_HPP_
 

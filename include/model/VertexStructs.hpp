@@ -1,3 +1,7 @@
+/*
+    Structs criadas para manter um padrão nas structs dos vértices dos diversos modelos e para não ser necessária a criação
+    de structs identicas para as diferentes classes.
+*/
 #ifndef _CGA_T2_VERTEX_STRUCTS_HPP_
 #define _CGA_T2_VERTEX_STRUCTS_HPP_
 

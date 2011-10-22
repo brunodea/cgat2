@@ -1,3 +1,6 @@
+/*
+    Classe com ós pré-requisitos padrões para a criação de um gameobject que utilize shaders.
+*/
 #ifndef _CGA_T2_SHADER_MODEL_HPP_
 #define _CGA_T2_SHADER_MODEL_HPP_
 

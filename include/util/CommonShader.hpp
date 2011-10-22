@@ -1,3 +1,7 @@
+/*
+    funções utilizadas apenas para setar o valor correto de variáveis uniformes em determinados shaders que as utilizam.
+*/
+
 #ifndef _CGA_T2_COMMON_SHADER_HPP_
 #define _CGA_T2_COMMON_SHADER_HPP_
 

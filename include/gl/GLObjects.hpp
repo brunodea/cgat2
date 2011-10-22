@@ -1,3 +1,8 @@
+/*
+    Classes com funcionalidades básicas para objetos do OpenGL (como VAO,VBO,FBO,etc).
+    Foram criadas para dar um nível um pouco maior de abstração e para deixar outros lugares do código mais limpos
+    e diminuir a redundância de código.
+*/
 #ifndef _CGA_T2_GL_OBJECTS_HPP_
 #define _CGA_T2_GL_OBJECTS_HPP_
 
@@ -12,11 +17,6 @@ namespace gl
         GLObj()  {}
 
         GLuint& id() { return m_iID; }
-        /*
-        virtual void bind() {};
-        virtual void bind(GLenum target) {};
-        virtual void unbind() {};
-*/
     private:
         GLuint m_iID;
     };//end of class GLObj.

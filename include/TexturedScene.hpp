@@ -1,3 +1,6 @@
+/*
+    Classe que lida com toda a renderização da cena. Tanto na textura quanto na tela.
+*/
 #ifndef _CGA_T2_TEXTURED_SCENE_HPP_
 #define _CGA_T2_TEXTURED_SCENE_HPP_
 

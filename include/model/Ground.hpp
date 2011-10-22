@@ -1,3 +1,6 @@
+/*
+    Classe simples que apenas desenha uma textura em um quadrado muito grande utilizado para representar o chão da cena.
+*/
 #ifndef _CGA_T2_GROUND_HPP_
 #define _CGA_T2_GROUND_HPP_
 

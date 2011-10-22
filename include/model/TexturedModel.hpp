@@ -1,3 +1,6 @@
+/*
+    Classe que lida com o necessário para a criação de um gameobject/shadermodel que utilize texturas para seu desenho.
+*/
 #ifndef _CGA_T2_TEXTURED_MODEL_HPP_
 #define _CGA_T2_TEXTURED_MODEL_HPP_
 

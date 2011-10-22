@@ -1,3 +1,6 @@
+/*
+    Classe com as funcionalidades básicas de um gameobject (que tem uma posicao, pode se mover e se desenhar).
+*/
 #ifndef _CGA_T2_GAME_OBJECT_HPP_
 #define _CGA_T2_GAME_OBJECT_HPP_
 
